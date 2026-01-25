@@ -1,8 +1,13 @@
-{% extends "base.html"}
+<!DOCTYPE html>
+{% extends "base.html" %}
     <html>
         <body>
-            <h1>Contact Information</h1>
-            <p>Connect with me on </p><li><a href="https://www.linkedin.com/in/emily-j-hammer">LinkedIn</a></li>
-            <p>Send me an </p><li><a href="mailto:ehammer5@jh.edu">e-mail</a></li><p>at ehammer5@jh.edu</p>
+            {% block content %}
+            <div class = "text">
+                <h1>Contact Information</h1>
+                <p>Connect with me on <a target="_blank" rel="noopener norferrer nofollow" href="https://www.linkedin.com/in/emily-j-hammer">LinkedIn</a></p>
+                <p>Send me an <a href="mailto:ehammer5@jh.edu">e-mail</a> at ehammer5@jh.edu</p>
+            </div>
+            {% endblock %}
         </body>
     </html>

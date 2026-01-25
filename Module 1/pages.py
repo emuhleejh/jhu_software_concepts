@@ -1,6 +1,7 @@
-from flask import Flask
+from flask import Blueprint, render_template
+from flask import request
 
-bp = Blueprint("pages", __name, template_folder = "templates")
+bp = Blueprint("pages", __name__, template_folder = "templates")
 
 @bp.route("/")
 
