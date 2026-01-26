@@ -1,2 +1,2 @@
-Python 3.10+
-Flask
+Python>=3.10
+Flask>=3.1.2

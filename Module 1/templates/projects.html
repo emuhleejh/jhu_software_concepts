@@ -1,16 +1,18 @@
 <!DOCTYPE html>
+<!--Inherits from base template-->
 {% extends "base.html" %}
     <html>
         <body>
             {% block content %}
             <div class = "text">
+                <!--Introduction to Projects page-->
                 <h1>Projects</h1>
                 <h2>Student Projects for Modern Software Concepts in Python</h2>
                 <p></p>
                 <p>As the semester progresses and we continue with assignments, each project will be added to this page to share a short summary of the assignment and my approach to a solution.</p>
                 <div class="box">
-                <div class="container">
                     <main class="grid">
+                        <!--Information about Module 1 Project-->
                         <article>
                             <div class="text">
                                 <h3>Module 1</h3>
@@ -19,16 +21,16 @@
                                 </div>
                                 <div class="project-bar"></div>
                                 <h4>Objective</h4>
-                                <p>Learn the fundamentals of website construction by leveraging HTML, Flask, and CSS to create a functional website for the semester.</p>
+                                <p>Learn the fundamentals of website construction by leveraging HTML, Flask, and CSS alongside Python to create a functional website for the semester.</p>
                                 <p></p>
                                 <h4>My Approach</h4>
-                                <p>Learn the fundamentals of website construction by leveraging HTML, Flask, and CSS to create a functional website for the semester.</p>
+                                <p>I created a website with three pages: Home, Contact, and Projects. These pages can be accessed through the navigation bar at the top of each page.</p>
+                                <p>I used HTML and Flask to create the content of each page, then found CSS styling I liked from a repository online and modified it to fit my taste.</p>
                                 <a target="_blank" rel="noopener norferrer nofollow" href="https://github.com/emuhleejh/jhu_software_concepts/tree/main/Module%201" class="btn">See solution on GitHub</a>
                             </div>
                         </article>
                     </main>
                 </div>
-            </div>
             {% endblock %}
         </body>
     </html>

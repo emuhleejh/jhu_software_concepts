@@ -1,23 +1,24 @@
 <!DOCTYPE html>
+<!--Inherits from base template-->
 {% extends "base.html" %}
     <html>
         <body>
             {% block content %}
+            <!--Student profile information-->
             <div class = "text">
                 <h1>Student Project Website</h1>
                 <h2>Modern Software Concepts in Python &#128013;</h2>
-                <h2>EN 605.256</h2>
-                <p></p>
+                <div class="subtitle">EN 605.256</div>
                 <img src = "{{url_for('static', filename = 'narwhal.jpg')}}" align = "right"/>
+                <h3>Emily Hammer</h3>
+                <div class="subtitle">Digital Marketing Specialist</div>
                 <h3>Student Profile &#127979;</h3>
-                <p>Hi, my name is Emily Hammer. I am a student at Johns Hopkins University, currently completing a set of prerequisites before fulling enrolling in the JH Engineering for Professionals Master's of Data Science program. As part of one of my prerequisites (Modern Software Concepts in Python), students</p>
-                <p></p>
+                <p>Hi, my name is Emily Hammer. I am a student at Johns Hopkins University, currently completing a set of prerequisites before fulling enrolling in the JH Engineering for Professionals Master's of Data Science program. As part of one of my prerequisites (Modern Software Concepts in Python), students create and maintain a website for the semester. Welcome to mine!</p>
                 <h3>Professional Experience &#128187;</h3>
                 <p>I earned my two Bachelor's degrees in Marketing and Management from Iowa State University in 2020. Since then, I've worked primarily in marketing roles, with a brief stint in customer success, and have found my niche in Digital Marketing.</p>
                 <p>I am currently a Digital Marketing Specialist at Per Mar Security Services, a super-regional security firm in the Midwest. Once I've completed my Master's in Data Science, I hope to pivot to a more data-centered position, either at my current company or someplace else. I'm not sure what that position will look like yet as data science continues to adapt to the changing business and technology ecosystems, but I am confident that pursuing my MS at JHU will help me stay on the cutting edge of the field.</p>
-                <p></p>
                 <h3>Personal Life &#129526;</h3>
-                <p>I live in Iowa and enjoy spending a lot of times with friends and family. Sometimes this looks like craft sessions where I crochet something else fun, or playing volleyball with my friends in our queer sports league. When I'm not hanging out with my besties, I like chilling at home with my cat Henley reading a book or playing Animal Crossing: New Horizons... when I'm not studying. &#128523;</p>
+                <p>I live in Iowa and enjoy spending a lot of times with friends and family. Sometimes this looks like craft sessions where I crochet something else fun, or playing volleyball with my friends in our queer sports league. When I'm not hanging out with my besties, I like chilling at home with my cat Henley, reading a book, crocheting, and playing Animal Crossing: New Horizons... or studying. &#128523;</p>
             </div>
             {% endblock %}
         </body>

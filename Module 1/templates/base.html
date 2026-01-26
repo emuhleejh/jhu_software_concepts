@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <!--Styles pull from base CSS file-->
         <link rel="stylesheet" href="static/base.css">
     </head>
     <body>
-        <ul>
-            <li class="{{'active' if request.url_rule.endpoint == 'pages.projects' }}"><a href = "{{url_for('pages.projects') }}">Projects</a></li>
-            <li class="{{'active' if request.url_rule.endpoint == 'pages.contact' }}"><a href = "{{url_for('pages.contact') }}">Contact</a></li>
-            <li class="{{'active' if request.url_rule.endpoint == 'pages.home' }}"><a href = "{{url_for('pages.home') }}">Home</a></li>
-        </ul>
+        <!-- Navigation bar -->
+        <div class="nav">
+            <ul>
+                <li class="{{'active' if request.url_rule.endpoint == 'pages.contact' }}"><a href = "{{url_for('pages.contact') }}">Contact</a></li>
+                <li class="{{'active' if request.url_rule.endpoint == 'pages.projects' }}"><a href = "{{url_for('pages.projects') }}">Projects</a></li>
+                <li class="{{'active' if request.url_rule.endpoint == 'pages.home' }}"><a href = "{{url_for('pages.home') }}">Home</a></li>
+            </ul>
+        </div>
+        <!--Placeholder for content in child templates-->
         {% block content %}{% endblock %}
     </body>
 </html>
