@@ -12,7 +12,7 @@
 <meta content="https://thegradcafe.s3.us-east-2.amazonaws.com/images/thegradcafe-logo.png" property="og:image"/>
 <meta content="DbyJ3SXLe" name="am-api-token"/>
 <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
-<title>Grad School Admissions Results for 2006–2026 • thegradcafe.com</title>
+<title>Grad School Admissions Results for 2006ï¿½2026 ï¿½ thegradcafe.com</title>
 <meta content="graduate school, graduate school admissions, admission statistics, grad school admissions, college, phd, mba, ms" name="keywords"/>
 <meta content="Search and submit to the largest database of graduate school admission results. Find out who got in where and when from 2006 to 2026" name="description"/>
 <link href="https://www.thegradcafe.com/survey/index.php?q=" rel="canonical"/>
@@ -2121,7 +2121,7 @@
 <div class="tw-mt-16 tw-border-t tw-border-white/10 tw-pt-8 sm:tw-mt-20 lg:tw-mt-24">
 <div class="tw-mt-8">
 <p class="tw-text-xs tw-leading-5 tw-text-gray-400">
-					© 2026 TheGradCafe.com. All rights reserved.
+					ï¿½ 2026 TheGradCafe.com. All rights reserved.
 				</p>
 </div>
 </div>
