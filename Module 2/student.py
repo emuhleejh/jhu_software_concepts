@@ -1,0 +1,17 @@
+class Student():
+    def __init__(self):
+        self.program = ""
+        self.university = ""
+        self.comments = ""
+        self.date_added = ""
+        self.results_url = ""
+        self.applicant_status = ""
+        self.acceptance_date = ""
+        self.rejection_date = ""
+        self.program_start = ""
+        self.local = ""
+        self.gre = ""
+        self.gre_v = ""
+        self.degree = ""
+        self.gpa = ""
+        self.gre_aw = ""
