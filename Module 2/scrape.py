@@ -14,75 +14,81 @@ class Scrape():
         self.results = []
 
     def read_page(self):
-        page = requests.get(self.url, headers={"User-Agent" : self.agent})
-        soup = bs(page.content, "html.parser")
-
-        table = soup.find("tbody")
-        entries = table.find_all("tr")
-
         state = 1
         program_start_re = re.compile("[A-Za-z]*\s\d{4}")
+        page_number = 1
 
-        for entry in entries:
-            data = entry.find_all("td")
+        while len(self.results) < 100:
+            page = requests.get(self.url, headers={"User-Agent" : self.agent})
+            soup = bs(page.content, "html.parser")
 
-            if len(data) >= 4:
-                state = 1
-                self.results.append(Student())
-                i = len(self.results) - 1
+            table = soup.find("tbody")
+            entries = table.find_all("tr")
 
-                self.results[i].university = data[0].find("div").find("div").string.strip()
-                self.results[i].program = data[1].find("span").string.strip()
-                self.results[i].degree = data[1].find("svg").next_sibling.next_sibling.string.strip()
-                self.results[i].date_added = data[2].string.strip()
-                self.results[i].applicant_status = data[3].find("div").string.strip()
+            for entry in entries:
+                data = entry.find_all("td")
 
-                self.results[i].results_url = self.base + data[4].find("a").get("href")
+                if len(data) >= 4:
+                    state = 1
+                    self.results.append(Student())
+                    i = len(self.results) - 1
 
-                if "Accepted" in self.results[i].applicant_status:
-                    status_split = self.results[i].applicant_status.split(" ")
-                    self.results[i].acceptance_date = f"{status_split[2]} {status_split[3]}"
-                elif "Rejected" in self.results[i].applicant_status:
-                    status_split = self.results[i].applicant_status.split(" ")
-                    self.results[i].rejection_date = f"{status_split[2]} {status_split[3]}"
+                    self.results[i].university = data[0].find("div").find("div").string.strip()
+                    self.results[i].program = data[1].find("span").string.strip()
+                    self.results[i].degree = data[1].find("svg").next_sibling.next_sibling.string.strip()
+                    self.results[i].date_added = data[2].string.strip()
+                    self.results[i].applicant_status = data[3].find("div").string.strip()
 
-            elif len(data) == 1 and state == 1:
-                i = len(self.results) - 1
-                
-                data_tag = data[0].find("div")
-                data_tags = data_tag.find_all("div")
+                    self.results[i].results_url = self.base + data[4].find("a").get("href")
 
-                for dt in data_tags:
-                    text = dt.string.strip()
+                    if "Accepted" in self.results[i].applicant_status:
+                        status_split = self.results[i].applicant_status.split(" ")
+                        self.results[i].acceptance_date = f"{status_split[2]} {status_split[3]}"
+                    elif "Rejected" in self.results[i].applicant_status:
+                        status_split = self.results[i].applicant_status.split(" ")
+                        self.results[i].rejection_date = f"{status_split[2]} {status_split[3]}"
 
-                    if program_start_re.match(text):
-                        self.results[i].program_start = text
+                elif len(data) == 1 and state == 1:
+                    i = len(self.results) - 1
+                    
+                    data_tag = data[0].find("div")
+                    data_tags = data_tag.find_all("div")
 
-                    elif "American" in text or "International" in text:
-                        self.results[i].location = text
+                    for dt in data_tags:
+                        text = dt.string.strip()
 
-                    elif "GPA" in text:
-                        self.results[i].gpa = text.replace("GPA ","")
+                        if program_start_re.match(text):
+                            self.results[i].program_start = text
 
-                    elif "GRE V" in text:
-                        self.results[i].gre_v = text.replace("GRE V ","")
+                        elif "American" in text or "International" in text:
+                            self.results[i].location = text
 
-                    elif "GRE AW" in text:
-                        self.results[i].gre_aw = text.replace("GRE AW ","")
+                        elif "GPA" in text:
+                            self.results[i].gpa = text.replace("GPA ","")
 
-                    elif "GRE" in text:
-                        self.results[i].gre = text.replace("GRE ","")
-                
-                state = 2
+                        elif "GRE V" in text:
+                            self.results[i].gre_v = text.replace("GRE V ","")
 
-            elif len(data) == 1 and state == 2:
-                i = len(self.results) - 1
+                        elif "GRE AW" in text:
+                            self.results[i].gre_aw = text.replace("GRE AW ","")
 
-                data_comment = data[0].find("p")
+                        elif "GRE" in text:
+                            self.results[i].gre = text.replace("GRE ","")
+                    
+                    state = 2
 
-                if data_comment is not None:
-                    self.results[i].comments = data_comment.string.strip()
+                elif len(data) == 1 and state == 2:
+                    i = len(self.results) - 1
 
+                    data_comment = data[0].find("p")
 
-        for student in self.results:
-            print(f"{student} \n")
+                    if data_comment is not None:
+                        self.results[i].comments = data_comment.string.strip()
+
+            page_number += 1
+            self.url = self.base + f"/survey/?page={page_number}"
+
+        with open("sampleresults.txt", "w") as file:
+
+            for student in self.results:
+                file.write(f"{student} \n")
