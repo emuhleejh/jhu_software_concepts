@@ -17,7 +17,7 @@ def main():
     # Create Scrape object from website
     website = Scrape(base_url, full_url, agent)
     # Read given number of entries on webpage
-    website.read_page(100)
+    website.read_page(40000)
 
     # Format entries into JSON file
     with open(applicant_data, "w") as file:

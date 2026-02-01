@@ -2,7 +2,6 @@
 class Student():
     def __init__(self):
         self.program = ""
-        self.university = ""
         self.comments = ""
         self.date_added = ""
         self.results_url = ""
@@ -20,7 +19,6 @@ class Student():
     # Format stored data about each Student object
     def format(self):
         student_data = {"program": self.program,
-                        "university": self.university,
                         "comments": self.comments,
                         "date_added": self.date_added,
                         "url": self.results_url,

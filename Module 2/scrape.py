@@ -44,6 +44,7 @@ class Scrape():
                 data = entry.find_all("td")
 
                 # Start of each new applicant's entry is known as 4 or more data points
+                # 'Parent row' of applicant entry
                 # Check if row has 4 or more data points
                 if len(data) >= 4:
                     
@@ -53,33 +54,58 @@ class Scrape():
                     self.results.append(Student())
                     # Index of current Student object
                     i = len(self.results) - 1
+                    
+                    # Find University from table row
+                    if data[0].find("div").find("div").string is not None:
+                        self.university = data[0].find("div").find("div").string.strip()
 
-                    # Set, format properties of Student object based on parsed table row data 
-                    self.results[i].university = data[0].find("div").find("div").string.strip()
-                    self.results[i].program = data[1].find("span").string.strip()
-                    self.results[i].degree = data[1].find("svg").next_sibling.next_sibling.string.strip()
-                    self.results[i].date_added = data[2].string.strip()
+                    # Find Program from table row
+                    if data[1].find("span").string is not None:
+                        self.program = data[1].find("span").string.strip()
+
+                    # Set Program at Student object level based on contents of method variables
+                    if self.university is not None:
+                        if self.program is not None:
+                            self.results[i].program = f"{self.program}, {self.university}"
+
+                    elif self.program is not None:
+                        self.results[i].program = f"{self.program}"
+
+                    else:
+                        self.results[i].program = "Unknown"
+
+                    # Find and format table row data for Degree, set as Student property
+                    if data[1].find("svg").next_sibling.next_sibling.string is not None:
+                        self.results[i].degree = data[1].find("svg").next_sibling.next_sibling.string.strip()
+
+                    # Find and format table row data for Date Added, set as Student property
+                    if data[2].string.strip is not None:
+                        self.results[i].date_added = data[2].string.strip()
+
+                    # Find and format table row data for Results URL, set as Student property
                     self.results[i].results_url = self.base + data[4].find("a").get("href")
                     
                     # Store status information as 'applicant_status'
-                    self.results[i].applicant_status = data[3].find("div").string.strip().split(" ")
+                    if data[3].find("div").string is not None:
+                        self.results[i].applicant_status = data[3].find("div").string.strip().split(" ")
 
-                    # Set 'applicant_status' and dates based on 'applicant_status' contents
-                    if "Accepted" in self.results[i].applicant_status:
-                        self.results[i].acceptance_date = f"{self.results[i].applicant_status[2]} {self.results[i].applicant_status[3]}"
-                        self.results[i].applicant_status = "Accepted"
+                        # Set 'applicant_status' and dates based on 'applicant_status' contents
+                        if "Accepted" in self.results[i].applicant_status:
+                            self.results[i].acceptance_date = f"{self.results[i].applicant_status[2]} {self.results[i].applicant_status[3]}"
+                            self.results[i].applicant_status = "Accepted"
 
-                    elif "Rejected" in self.results[i].applicant_status:                      
-                        self.results[i].rejection_date = f"{self.results[i].applicant_status[2]} {self.results[i].applicant_status[3]}"
-                        self.results[i].applicant_status = "Rejected"
+                        elif "Rejected" in self.results[i].applicant_status:                      
+                            self.results[i].rejection_date = f"{self.results[i].applicant_status[2]} {self.results[i].applicant_status[3]}"
+                            self.results[i].applicant_status = "Rejected"
 
-                    elif "Interview" in self.results[i].applicant_status:
-                        self.results[i].applicant_status = "Interview"
+                        elif "Interview" in self.results[i].applicant_status:
+                            self.results[i].applicant_status = "Interview"
 
-                    elif "Wait" in self.results[i].applicant_status:
-                        self.results[i].applicant_status = "Wait listed"
+                        elif "Wait" in self.results[i].applicant_status:
+                            self.results[i].applicant_status = "Wait listed"
 
                 # Only run if row has a single data point and state is 2
+                # 'Child row' of applicant entry
                 elif len(data) == 1 and state == 1:
                     # Index of current Student object
                     i = len(self.results) - 1
@@ -117,14 +143,15 @@ class Scrape():
 
                 # Not all entries have comments
                 # Only run if row has a single data point and state is 2
+                # 'Child row' of applicant entry
                 elif len(data) == 1 and state == 2:
                     # Index of current Student object
                     i = len(self.results) - 1
 
                     # Find comment in table row
                     data_comment = data[0].find("p")
-                    # Only add comment to Student object if not empty
-                    if data_comment is not None:
+                    # Only add comment to Student object if comment not empty
+                    if data_comment is not None and data_comment.string is not None:
                         self.results[i].comments = data_comment.string.strip()
 
             # Update page number for pagination
