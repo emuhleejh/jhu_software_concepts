@@ -127,7 +127,8 @@ class Scrape():
                             self.results[i].location = text
 
                         elif "GPA" in text:
-                            self.results[i].gpa = text.replace("GPA ","")
+                            gpa = float(text.replace("GPA ",""))
+                            self.results[i].gpa = f"{gpa:01.2f}"
 
                         elif "GRE V" in text:
                             self.results[i].gre_v = text.replace("GRE V ","")
