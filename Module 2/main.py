@@ -17,16 +17,16 @@ def main():
     # Create Scrape object from website
     website = Scrape(base_url, full_url, agent)
     # Read given number of entries on webpage
-    website.read_page(40000)
+    website.scrape_data(40000)
 
     # Format entries into JSON file
     with open(applicant_data, "w") as file:
-        file.write(website.serialize())
+        file.write(website.load_data())
 
     # Create Clean object from 'applicant_data' file
     clean_data = Clean(applicant_data)
     # Clean applicant data with local LLM
-    clean_data.llm_clean()
+    clean_data.clean_data()
 
 if __name__ == "__main__":
     # Set up parsing authentication specs for website

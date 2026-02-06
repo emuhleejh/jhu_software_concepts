@@ -17,7 +17,7 @@ class Scrape():
         # Empty list to store results
         self.results = []
 
-    def read_page(self, count):
+    def scrape_data(self, count):
         # Initiate state machine
         state = 1
         # Regex for program start term
@@ -160,7 +160,7 @@ class Scrape():
             self.url = self.base + f"/survey/?page={page_number}"
 
     # Format entire 'results' list of Student objects as JSON
-    def serialize(self):
+    def load_data(self):
         student_list = []
 
         for result in self.results:

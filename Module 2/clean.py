@@ -6,5 +6,5 @@ class Clean():
         self.filename = filename
 
     # Runs 'filename' file through local LLM 'app.py'
-    def llm_clean(self):
+    def clean_data(self):
         subprocess.call(["py", "llm_hosting/app.py", "--file", self.filename, "--out", "llm_extend_applicant_data.json"])
