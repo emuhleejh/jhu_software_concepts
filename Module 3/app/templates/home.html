@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .box {
+                padding: 5px;
+                padding-left: 20px;
+                margin: 10px;
+                background-color: #cecccc;
+                border-radius: 5px;
+            }
+            
+            .box:hover {
+                box-shadow: 2px 2px #949494;
+            }
+
+            form {
+                float: right;
+            }
+
+            input[type=submit] {
+                background-color: #313131;
+                padding: 10px;
+                margin: 10px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                width: fit-content;
+                height: fit-content;
+                font-size: 11px;
+                text-transform: uppercase;
+                font-weight: bold;
+                color: #ffffff;
+            }
+
+            input[type=submit]:hover {
+                background-color: #cecccc;
+                color: #252527;
+                cursor: pointer;
+            }
+
+            .container{
+                display: flex;
+            }
+
+            .sides {
+                flex: 0 0 auto;
+                width: 50%
+            }
+
+            h1 {
+                text-align: left;
+                font-size: 32px;
+                padding-top: 20px;
+                padding-bottom: 10px;
+                padding-left: 15px;
+                line-height: 0;
+            }
+
+            h2{
+                color: #252527;
+                text-align: left;
+                font-size: 16px;
+                padding-top: 10px;
+                padding-bottom: 5px;
+                line-height: 0;
+            }
+
+            body {
+                justify-content: left;
+                font-family: 'Roboto', sans-serif;
+                font-size: 14px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="sides"><h1>Analysis</h1></div>
+            <div class="sides">
+                <form action="/pull-data/">
+                    <input type="submit" value="Pull Data" />
+                </form>
+                <form action="/update-analysis/">
+                    <input type="submit" value="Update Analysis" />
+                </form>
+            </div>            
+        </div>
+        <div class="box">
+            <h2>1. How many entries do you have in your database who have applied for Fall 2026?</h2>
+            <i><p>Answer: Applicant Count: {{ data["ct_applicants_f26"] }}</p></i>
+        </div>
+        <div class="box">
+            <h2>2. What percentage of entries are from international students (not American or Other) (to two decimal places)?</h2>
+            <i><p>Answer: Percent International: {{ data["pct_intl"] }}%</p></i>
+        </div>
+        <div class="box">
+            <h2>3. What is the average GPA, GRE, GRE V, GRE AW of applicants who provide these metrics?</h2>
+            <i><p>Answer: Average GPA: {{ data["avg_gpa"] }}, Average GRE: {{ data["avg_gre"] }}, Average GRE V: {{ data["avg_gre_v"] }}, Average GRE AW: {{ data["avg_gre_aw"] }}</p></i>
+        </div>
+        <div class="box">
+            <h2>4. What is their average GPA of American students in Fall 2026?</h2>
+            <i><p>Answer: Average GPA American: {{ data["avg_us_gpa_f26"] }}</p></i>
+        </div>
+        <div class="box">
+            <h2>5. What percent of entries for Fall 2025 are Acceptances (to two decimal places)?</h2>
+            <i><p>Answer: Acceptance Percent: {{ data["pct_accepted_f25"] }}%</p></i>
+        </div>
+        <div class="box">
+            <h2>6. What is the average GPA of applicants who applied for Fall 2026 who are Acceptances?</h2>
+            <i><p>Answer: Average GPA Acceptance: {{ data["avg_accept_gpa_f26"] }}</p></i>
+        </div>
+        <div class="box">
+            <h2>7. How many entries are from applicants who applied to JHU for a masters degrees in Computer Science?</h2>
+            <i><p>Answer: JHU ComSci Masters Applicant Count: {{ data["ct_jhu_ms_cs"] }}</p></i>
+        </div>
+        <div class="box">
+            <h2>8. How many entries from 2026 are acceptances from applicants who applied to Georgetown University, MIT, Stanford University, or Carnegie Mellon University for a PhD in Computer Science?</h2>
+            <i><p>Answer: Selected Universities ComSci PhD Acceptance Count: {{ data["ct_select_phd_cs"] }}<p></i>
+        </div>
+        <div class="box">
+            <h2>9. Do your numbers for question 8 change if you use LLM Generated Fields (rather than your downloaded fields)?</h2>
+            <i><p>Answer: LLM Selected Universities ComSci PhD Acceptance Count: {{ data["ct_select_phd_cs_llm"] }}</p></i>
+        </div>
+        <div class="box">
+            <h2>10. What program accepted the most applicants? How many did they accept?</h2>
+            <i><p>Answer: Program: {{ data["prog_most_accept"] }}, Count: {{ data["prog_accept_ct"] }}</p></i>
+        </div>
+        <div class="box">
+            <h2>11. What program rejected the most applicants? How many did they accept?</h2>
+            <i><p>Answer: Program: {{ data["prog_most_reject"] }}, Count: {{ data["prog_reject_ct"] }}</p></i>
+        </div>
+        <div class="box">
+            <h2>12. What university accepted the most applicants? How many did they accept?</h2>
+            <i><p>Answer: University: {{ data["uni_most_accept"] }}, Count: {{ data["uni_accept_ct"] }}</p></i>
+        </div>
+        <div class="box">
+            <h2>13. What university rejected the most applicants? How many did they accept?</h2>
+            <i><p>Answer: University: {{ data["uni_most_reject"] }}, Count: {{ data["uni_reject_ct"] }}</p></i>
+        </div>
+    </body>
+</html>
