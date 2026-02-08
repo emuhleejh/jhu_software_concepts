@@ -56,7 +56,7 @@ class Query():
                     FROM results;
                     """)
             row = c.fetchone()
-            self.avg_gpa, self.avg_gre, self.avg_gre_v, self.avg_gre_aw = row[0], row[1], row[2], row[3]
+            self.avg_gpa, self.avg_gre, self.avg_gre_v, self.avg_gre_aw = round(row[0],2), round(row[1],2), round(row[2],2), round(row[3],2)
 
             # Average GPA of American students in Fall 2026
             c.execute("""SELECT avg(gpa)
@@ -80,15 +80,15 @@ class Query():
             # Average GPA of accepted students in Fall 2026
             c.execute("""SELECT avg(gpa)
                     FROM results
-                    WHERE term = 'Fall 2026' AND status = 'accepted';
+                    WHERE term = 'Fall 2026' AND status = 'Accepted';
                     """)
             row = c.fetchone()
-            self.avg_accept_gpa_f26 = row[0]
+            self.avg_accept_gpa_f26 = round(row[0],2)
 
             # Count of applicants to JHU for a Masters in Computer Science
             c.execute("""SELECT COUNT(p_id)
                     FROM results
-                    WHERE degree = 'Masters' AND degree IN ('Computer Science') AND program IN ('Johns Hopkins');
+                    WHERE degree = 'Masters' AND program LIKE ('Computer Science%') AND (program LIKE ('%Johns Hopkins%') OR program LIKE ('%JHU%') OR program LIKE ('%Hopkins%'));
                     """)
             row = c.fetchone()
             self.ct_jhu_ms_cs = row[0]
@@ -96,7 +96,7 @@ class Query():
             # Count of applicants to selected universities for a PhD in Computer Science
             c.execute("""SELECT COUNT(p_id)
                     FROM results
-                    WHERE degree = 'PhD' AND program IN ('Computer Science') AND program IN ('Georgetown', 'MIT', 'Stanford', 'Carnegie Mellon');
+                    WHERE degree = 'PhD' AND program LIKE ('Computer Science%') AND (program LIKE ('%Georgetown%') OR program LIKE ('%MIT%') OR program LIKE ('%Stanford%') OR program LIKE ('%Carnegie%'));
                     """)
             row = c.fetchone()
             self.ct_select_phd_cs = row[0]
@@ -104,7 +104,7 @@ class Query():
             # Count of applicants to selected universities for a PhD in Computer Science using LLM answers
             c.execute("""SELECT COUNT(p_id)
                     FROM results
-                    WHERE degree = 'PhD' AND llm_generated_program IN ('Computer Science') AND llm_generated_university IN ('Georgetown', 'MIT', 'Stanford', 'Carnegie Mellon');
+                    WHERE degree = 'PhD' AND llm_generated_program LIKE ('Computer Science%') AND (llm_generated_university LIKE ('%George town%') OR llm_generated_university LIKE ('%Massachusetts Institute of Technology%') OR llm_generated_university LIKE ('%Stanford%') OR llm_generated_university LIKE ('%Carnegie%'));
                     """)
             row = c.fetchone()
             self.ct_select_phd_cs_llm = row[0]

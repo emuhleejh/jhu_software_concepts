@@ -15,10 +15,8 @@ password = "python"
 
 def home():
     q_data = Query(dbname, user, password)
-    q_data.run_query()
-    count_f26 = q_data.ct_applicants_f26
-    print(count_f26)
-    return render_template("home.html", data=count_f26)
+    all_data = q_data.run_query()
+    return render_template("home.html", data=all_data)
 
 # Run application
 if __name__ == "__main__":
