@@ -22,79 +22,98 @@ password = "python"
 
 page = Flask(__name__)
 
+
 # Return 'home' html template when endpoint matches '/'
 @page.route("/")
 def home():
+    global retrieving_data
+
     q_data = Query(dbname, user, password)
     all_data = q_data.run_query()
-    return render_template("home.html", data=all_data)
+    return render_template("home.html", data=all_data, rendering = retrieving_data)
 
 # Proceed with scraping and processing sequence
 @page.route("/pull-data/")
 def pull_data():
-    parser = robotparser.RobotFileParser(base_url)
-    parser.set_url(parse.urljoin(base_url, "robots.txt"))
-    parser.read() 
+    global retrieving_data
+
+    if retrieving_data == False:
+
+        retrieving_data = True
     
-    # Run program if auth succeeds, return error if auth fails
-    if parser.can_fetch(agent,base_url) == True:
-        print("Authentication succeeded. Proceeding with program.")
-
-        # Connect to database
-        connection = psycopg.connect(dbname = dbname, 
-                                  user = user, 
-                                  password = password)
+        parser = robotparser.RobotFileParser(base_url)
+        parser.set_url(parse.urljoin(base_url, "robots.txt"))
+        parser.read() 
         
-        # Grab most recent entry collected from website
-        with connection.cursor() as c:
-            c.execute("""SELECT MAX(NULLIF(regexp_replace(url, '\D','','g'), '')::numeric) AS result
-                        FROM   results;
-                      """)
-            row = c.fetchone()
-            most_recent_entry = int((row[0]))
+        # Run program if auth succeeds, return error if auth fails
+        if parser.can_fetch(agent,base_url) == True:
+            print("Authentication succeeded. Proceeding with program.")
+
+            # Connect to database
+            connection = psycopg.connect(dbname = dbname, 
+                                    user = user, 
+                                    password = password)
             
-        # Create Scrape object from website
-        website = Scrape(base_url, full_url, agent)
-        # Read given number of entries on webpage
-        website.scrape_data(most_recent_entry)
-        
-        # Format entries into JSON file
-        with open(applicant_data, "w") as file:
-            file.write(website.load_data())
-
-        # Create Clean object from 'applicant_data' file
-        clean_data = Clean(applicant_data)
-        # Clean applicant data with local LLM
-        clean_data.clean_data()
-
-        # Format txt file as json in memory
-        with open("llm_extend_applicant_data.txt", "r") as file:
-            content = file.read()
-            content = content.replace("}", "},", content.count("}") - 1)        
-            formatted_json = "[" + content + "]"
-
-        # Write json memory to json file
-        with open("llm_extend_applicant_data.json", "w") as file:
-            file.write(formatted_json)
+            # Grab most recent entry collected from website
+            with connection.cursor() as c:
+                c.execute("""SELECT MAX(NULLIF(regexp_replace(url, '\D','','g'), '')::numeric) AS result
+                            FROM   results;
+                        """)
+                row = c.fetchone()
+                most_recent_entry = int((row[0]))
                 
-    else:
-        print(f"Error: authentication failed. \
-              Access denied for {agent} on {base_url}.")
+            # Create Scrape object from website
+            website = Scrape(base_url, full_url, agent)
+            # Read given number of entries on webpage
+            website.scrape_data(most_recent_entry)
+            
+            # Format entries into JSON file
+            with open(applicant_data, "w") as file:
+                file.write(website.load_data())
+
+            # Create Clean object from 'applicant_data' file
+            clean_data = Clean(applicant_data)
+            # Clean applicant data with local LLM
+            clean_data.clean_data()
+
+            # Format txt file as json in memory
+            with open("llm_extend_applicant_data.txt", "r") as file:
+                content = file.read()
+                content = content.replace("}", "},", content.count("}") - 1)        
+                formatted_json = "[" + content + "]"
+
+            # Write json memory to json file
+            with open("llm_extend_applicant_data.json", "w") as file:
+                file.write(formatted_json)
+
+            # Load data into database
+            load_data(dbname, user, password)
+            retrieving_data = False
+                  
+        else:
+            print(f"Error: authentication failed. \
+                Access denied for {agent} on {base_url}.")
+            retrieving_data = False
 
     return home()
 
 # Analyze all scraped and processed data
 @page.route("/update-analysis/")
 def update_analysis():
+    global retrieving_data
 
-    # Load data into database
-    load_data(dbname, user, password)
-
-    # Process data through queries
-    q_data = Query(dbname, user, password)
-    all_data = q_data.run_query()
+    if retrieving_data == False:
+        retrieving_data = True
+        
+        # Process data through queries
+        q_data = Query(dbname, user, password)
+        all_data = q_data.run_query()
+        retrieving_data = False
+    
     return render_template("home.html", data=all_data)
 
 # Run application
 if __name__ == "__main__":
+    global retrieving_data
+    retrieving_data = False
     page.run(host="0.0.0.0", port=8080, debug=True)

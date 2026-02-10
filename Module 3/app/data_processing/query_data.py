@@ -26,7 +26,11 @@ class Query():
         self.uni_most_accept = ""
         self.uni_accept_ct = ""
 
+
+    # Series of analysis SQL calls
     def run_query(self):
+
+        # Connect to database
         connection = psycopg.connect(dbname = self.dbname, 
                                      user = self.user, 
                                      password = self.password)
@@ -49,7 +53,6 @@ class Query():
                     ORDER BY us_or_international desc;
                     """)
             rows = c.fetchall()
-        #     print(rows)
             intl, us = rows[0][1], rows[1][1]
             self.pct_intl = f"{(100 * intl / (us + intl)):.2f}"
             print(f"Percent International: {self.pct_intl}")

@@ -89,12 +89,16 @@
         <div class="container">
             <div class="sides"><h1>Analysis</h1></div>
             <div class="sides">
-                <form action="/pull-data/">
+                {% if rendering %}
+                <button onclick="alert('Data update in progress');">Processing</button>
+                {% else %}
+                 <form action="/pull-data/">
                     <input type="submit" value="Pull Data" />
                 </form>
                 <form action="/update-analysis/">
                     <input type="submit" value="Update Analysis" />
                 </form>
+                {% endif %}
             </div>            
         </div>
         <div class="info">

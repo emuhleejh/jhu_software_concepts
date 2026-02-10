@@ -5,7 +5,10 @@ import re
 # Regex for GPA
 gpa_re = re.compile("(\A\d?\.\d+\z|\A\d\z)")
 
+# Create table in database to hold applicant info
 def create_table(dbname, user, password):
+
+     # Connect to database
      connection = psycopg.connect(dbname = dbname, 
                                   user = user, 
                                   password = password)
@@ -29,22 +32,29 @@ def create_table(dbname, user, password):
                          llm_generated_university text
                     );
                     """)
+          
           connection.commit()
           c.close()
           connection.close()
      
+# Load data from file into database
 def load_data(dbname, user, password):
+
+     # Connect to database
      connection = psycopg.connect(dbname = dbname, 
                                   user = user, 
                                   password = password)
      
      with connection.cursor() as c:
           
+          # Read file with entries for database
           with open("llm_extend_applicant_data.json", "r", ) as f:
                applicant_data = json.loads(f.read())
 
+          # Empty query string
           query = ""
           
+          # Format each entry in file as json object, append to query string
           for json_object in applicant_data:
                     if json_object["gpa"] == "":
                          json_object["gpa"] = "NULL"
@@ -78,7 +88,7 @@ def load_data(dbname, user, password):
                     '{json_object["llm-generated-program"].replace("'", "''")}',\
                     '{json_object["llm-generated-university"].replace("'", "''")}');"
                     
-     
+          # Execute query string and close connections
           c.execute(query)
           connection.commit()
      c.close()
