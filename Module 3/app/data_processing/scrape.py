@@ -17,16 +17,19 @@ class Scrape():
         # Empty list to store results
         self.results = []
 
-    def scrape_data(self, count):
+    def scrape_data(self, recent_entry):
         # Initiate state machine
         state = 1
         # Regex for program start term
         program_start_re = re.compile("[A-Za-z]*\s\d{4}")
+        gpa_re = re.compile("(\A\d?\.\d+\z|\A\d\z)")
         # Starting page of 'url' webpage being searched
         page_number = 1
 
+        max_reached = 0
+
         # Process webpage until number of results greater than requested count 
-        while len(self.results) < count:
+        while max_reached == 0:
 
             # Read, parse webpage as html
             page_request = Request(self.url, headers={"User-Agent" : self.agent})
@@ -47,62 +50,67 @@ class Scrape():
                 # 'Parent row' of applicant entry
                 # Check if row has 4 or more data points
                 if len(data) >= 4:
-                    
-                    # Reset state machine
-                    state = 1
-                    # Create new Student object
-                    self.results.append(Student())
-                    # Index of current Student object
-                    i = len(self.results) - 1
-                    
-                    # Find University from table row
-                    if data[0].find("div").find("div").string is not None:
-                        self.university = data[0].find("div").find("div").string.strip()
+                    uid = data[4].find("a").get("href").replace("/result/","")
+                    if recent_entry >= int(uid):
+                        max_reached = 1
+                        break
 
-                    # Find Program from table row
-                    if data[1].find("span").string is not None:
-                        self.program = data[1].find("span").string.strip()
+                    else:   
+                        # Reset state machine
+                        state = 1
+                        # Create new Student object
+                        self.results.append(Student())
+                        # Index of current Student object
+                        i = len(self.results) - 1
+                        
+                        # Find University from table row
+                        if data[0].find("div").find("div").string is not None:
+                            self.university = data[0].find("div").find("div").string.strip()
 
-                    # Set Program at Student object level based on contents of method variables
-                    if self.university is not None:
-                        if self.program is not None:
-                            self.results[i].program = f"{self.program}, {self.university}"
+                        # Find Program from table row
+                        if data[1].find("span").string is not None:
+                            self.program = data[1].find("span").string.strip()
 
-                    elif self.program is not None:
-                        self.results[i].program = f"{self.program}"
+                        # Set Program at Student object level based on contents of method variables
+                        if self.university is not None:
+                            if self.program is not None:
+                                self.results[i].program = f"{self.program}, {self.university}"
 
-                    else:
-                        self.results[i].program = "Unknown"
+                        elif self.program is not None:
+                            self.results[i].program = f"{self.program}"
 
-                    # Find and format table row data for Degree, set as Student property
-                    if data[1].find("svg").next_sibling.next_sibling.string is not None:
-                        self.results[i].degree = data[1].find("svg").next_sibling.next_sibling.string.strip()
+                        else:
+                            self.results[i].program = "Unknown"
 
-                    # Find and format table row data for Date Added, set as Student property
-                    if data[2].string.strip is not None:
-                        self.results[i].date_added = data[2].string.strip()
+                        # Find and format table row data for Degree, set as Student property
+                        if data[1].find("svg").next_sibling.next_sibling.string is not None:
+                            self.results[i].degree = data[1].find("svg").next_sibling.next_sibling.string.strip()
 
-                    # Find and format table row data for Results URL, set as Student property
-                    self.results[i].results_url = self.base + data[4].find("a").get("href")
-                    
-                    # Store status information as 'applicant_status'
-                    if data[3].find("div").string is not None:
-                        self.results[i].applicant_status = data[3].find("div").string.strip().split(" ")
+                        # Find and format table row data for Date Added, set as Student property
+                        if data[2].string.strip is not None:
+                            self.results[i].date_added = data[2].string.strip()
 
-                        # Set 'applicant_status' and dates based on 'applicant_status' contents
-                        if "Accepted" in self.results[i].applicant_status:
-                            self.results[i].acceptance_date = f"{self.results[i].applicant_status[2]} {self.results[i].applicant_status[3]}"
-                            self.results[i].applicant_status = "Accepted"
+                        # Find and format table row data for Results URL, set as Student property
+                        self.results[i].results_url = self.base + data[4].find("a").get("href")
+                        
+                        # Store status information as 'applicant_status'
+                        if data[3].find("div").string is not None:
+                            self.results[i].applicant_status = data[3].find("div").string.strip().split(" ")
 
-                        elif "Rejected" in self.results[i].applicant_status:                      
-                            self.results[i].rejection_date = f"{self.results[i].applicant_status[2]} {self.results[i].applicant_status[3]}"
-                            self.results[i].applicant_status = "Rejected"
+                            # Set 'applicant_status' and dates based on 'applicant_status' contents
+                            if "Accepted" in self.results[i].applicant_status:
+                                self.results[i].acceptance_date = f"{self.results[i].applicant_status[2]} {self.results[i].applicant_status[3]}"
+                                self.results[i].applicant_status = "Accepted"
 
-                        elif "Interview" in self.results[i].applicant_status:
-                            self.results[i].applicant_status = "Interview"
+                            elif "Rejected" in self.results[i].applicant_status:                      
+                                self.results[i].rejection_date = f"{self.results[i].applicant_status[2]} {self.results[i].applicant_status[3]}"
+                                self.results[i].applicant_status = "Rejected"
 
-                        elif "Wait" in self.results[i].applicant_status:
-                            self.results[i].applicant_status = "Wait listed"
+                            elif "Interview" in self.results[i].applicant_status:
+                                self.results[i].applicant_status = "Interview"
+
+                            elif "Wait" in self.results[i].applicant_status:
+                                self.results[i].applicant_status = "Wait listed"
 
                 # Only run if row has a single data point and state is 2
                 # 'Child row' of applicant entry
@@ -127,8 +135,13 @@ class Scrape():
                             self.results[i].location = text
 
                         elif "GPA" in text:
-                            gpa = float(text.replace("GPA ",""))
-                            self.results[i].gpa = f"{gpa:01.2f}"
+                            gpa_full = text.replace("GPA ","")
+                            if gpa_re.match(gpa_full):
+                                gpa = float(gpa_full)
+                                self.results[i].gpa = f"{gpa:01.2f}"
+                            else:
+                                self.results[i].gpa = ""
+
 
                         elif "GRE V" in text:
                             self.results[i].gre_v = text.replace("GRE V ","")

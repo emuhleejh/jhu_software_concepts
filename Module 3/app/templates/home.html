@@ -14,6 +14,18 @@
                 box-shadow: 2px 2px #949494;
             }
 
+            .info {
+                padding: 5px;
+                padding-left: 20px;
+                margin: 10px;
+                border-color:#585858;
+                border-width: 2px;
+                border-style: solid;
+                border-radius: 5px;
+                line-height: .5;
+                font-size: smaller;
+            }
+
             form {
                 float: right;
             }
@@ -84,6 +96,12 @@
                     <input type="submit" value="Update Analysis" />
                 </form>
             </div>            
+        </div>
+        <div class="info">
+            <p><b>To request more data, please click 'Pull Data.'</b></p>
+            <p><i>Once the request begins, this button and 'Update Analysis' will be temporarily disabled as the system collects more data and processes it through an LLM.</i></p>
+            <p><b>To analyze all collected data, please click 'Update Analysis.'</b></p>
+            <p><i>This will cause the analytics to factor in the new data, including the most recently pulled, potentially resulting in updated counts and averages.</i></p>
         </div>
         <div class="box">
             <h2>1. How many entries do you have in your database who have applied for Fall 2026?</h2>

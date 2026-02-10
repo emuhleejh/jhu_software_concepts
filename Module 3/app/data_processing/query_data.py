@@ -40,6 +40,7 @@ class Query():
                     """)   
             row = c.fetchone()
             self.ct_applicants_f26 = row[0]
+            print(f"Fall 2026 applicant count: {self.ct_applicants_f26}")
             
             # Percentage of entries from international students
             c.execute("""SELECT us_or_international, COUNT(p_id)
@@ -50,7 +51,8 @@ class Query():
             rows = c.fetchall()
         #     print(rows)
             intl, us = rows[0][1], rows[1][1]
-            self.pct_intl = round(100 * intl / (us + intl), 2)
+            self.pct_intl = f"{(100 * intl / (us + intl)):.2f}"
+            print(f"Percent International: {self.pct_intl}")
             
             # Average GPA, GRE, GRE V, and GRE AW of applicants
             c.execute("""SELECT avg(gpa), avg(gre), avg(gre_v), avg(gre_aw)
@@ -58,7 +60,9 @@ class Query():
                     """)
             row = c.fetchone()
             self.avg_gpa, self.avg_gre, self.avg_gre_v, self.avg_gre_aw = \
-                round(row[0],2), round(row[1],2), round(row[2],2), round(row[3],2)
+                f"{row[0]:.2f}", f"{row[1]:.2f}", f"{row[2]:.2f}", f"{row[3]:.2f}"
+            print(f"Avg GPA: {self.avg_gpa}, Avg GRE: {self.avg_gre}, " 
+                  f"Avg GRE V: {self.avg_gre_v}, Avg GRE AW: {self.avg_gre_aw}")
 
             # Average GPA of American students in Fall 2026
             c.execute("""SELECT avg(gpa)
@@ -67,7 +71,8 @@ class Query():
                       AND us_or_international = 'American';
                     """)
             row = c.fetchone()
-            self.avg_us_gpa_f26 = round(row[0],2)
+            self.avg_us_gpa_f26 = f"{row[0]:.2f}"
+            print(f"Average Fall 2026 American GPA: {self.avg_us_gpa_f26}")
             
             # Percent of entries in Fall 2025 that are Acceptances
             c.execute("""SELECT status, COUNT(p_id)
@@ -78,7 +83,8 @@ class Query():
                     """)
             row = c.fetchall()
             accepted, all_others = row[0][1], (row[1][1] + row[2][1] + row[3][1])
-            self.pct_accepted_f25 = round(100 * accepted / (accepted + all_others), 2)
+            self.pct_accepted_f25 = f"{(100 * accepted / (accepted + all_others)):.2f}"
+            print(f"Fall 2025 acceptance percent: {self.pct_accepted_f25}%")
             
             # Average GPA of accepted students in Fall 2026
             c.execute("""SELECT avg(gpa)
@@ -86,7 +92,8 @@ class Query():
                     WHERE term = 'Fall 2026' AND status = 'Accepted';
                     """)
             row = c.fetchone()
-            self.avg_accept_gpa_f26 = round(row[0],2)
+            self.avg_accept_gpa_f26 = f"{row[0]:.2f}"
+            print(f"Average GPA acceptance: {self.avg_accept_gpa_f26}")
 
             # Count of applicants to JHU for a Masters in Computer Science
             c.execute("""SELECT COUNT(p_id)
@@ -99,6 +106,7 @@ class Query():
                     """)
             row = c.fetchone()
             self.ct_jhu_ms_cs = row[0]
+            print(f"JHU Masters Computer Science count: {self.ct_jhu_ms_cs}")
 
             # Count of applicants to selected universities for a PhD in Computer Science
             c.execute("""SELECT COUNT(p_id)
@@ -112,6 +120,7 @@ class Query():
                     """)
             row = c.fetchone()
             self.ct_select_phd_cs = row[0]
+            print(f"Selected university applicant count: {self.ct_select_phd_cs}")
 
             # Count of applicants to selected universities for a PhD in Computer Science using LLM answers
             c.execute("""SELECT COUNT(p_id)
@@ -125,6 +134,7 @@ class Query():
                     """)
             row = c.fetchone()
             self.ct_select_phd_cs_llm = row[0]
+            print(f"Selected university applicant count via LLM: {self.ct_select_phd_cs_llm}")
 
             # Program with the most acceptances
             c.execute("""SELECT llm_generated_program, COUNT(p_id) as total_count
@@ -135,6 +145,7 @@ class Query():
                     """)
             row = c.fetchone()
             self.prog_most_accept, self.prog_accept_ct = row[0], row[1]
+            print(f"Program with most acceptances: {self.prog_most_accept}, {self.prog_accept_ct}")
 
             # Program with the most rejections
             c.execute("""SELECT llm_generated_program, COUNT(p_id) as total_count
@@ -145,6 +156,7 @@ class Query():
                     """)
             row = c.fetchone()
             self.prog_most_reject, self.prog_reject_ct = row[0], row[1]
+            print(f"Program with most rejections: {self.prog_most_reject}, {self.prog_reject_ct}")
 
             # University with the most acceptances
             c.execute("""SELECT llm_generated_university, COUNT(p_id) as total_count
@@ -155,6 +167,7 @@ class Query():
                     """)
             row = c.fetchone()
             self.uni_most_accept, self.uni_accept_ct = row[0], row[1]
+            print(f"University with most acceptances: {self.uni_most_accept}, {self.uni_accept_ct}")
 
             # University with the most rejections
             c.execute("""SELECT llm_generated_university, COUNT(p_id) as total_count
@@ -165,6 +178,7 @@ class Query():
                     """)
             row = c.fetchone()
             self.uni_most_reject, self.uni_reject_ct = row[0], row[1]
+            print(f"University with most rejections: {self.uni_most_reject}, {self.uni_reject_ct}")
 
             connection.commit()
 

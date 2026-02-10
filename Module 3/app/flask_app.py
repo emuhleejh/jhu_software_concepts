@@ -17,7 +17,7 @@ base_url = "https://www.thegradcafe.com"
 full_url = "https://www.thegradcafe.com/survey"
 
 # File to store and return basic scraped data
-applicant_data = "applicant_data1.json"
+applicant_data = "applicant_data.json"
 
 dbname = "applicants"
 user = "postgres"
@@ -44,10 +44,23 @@ def pull_data():
     if parser.can_fetch(agent,base_url) == True:
         print("Authentication succeeded. Proceeding with program.")
 
+        connection = psycopg.connect(dbname = dbname, 
+                                  user = user, 
+                                  password = password)
+        
+        with connection.cursor() as c:
+            c.execute("""SELECT MAX(NULLIF(regexp_replace(url, '\D','','g'), '')::numeric) AS result
+                        FROM   results;
+                      """)
+            
+            row = c.fetchone()
+            
+            most_recent_entry = int((row[0]))
+            
         # Create Scrape object from website
         website = Scrape(base_url, full_url, agent)
         # Read given number of entries on webpage
-        website.scrape_data(5)
+        website.scrape_data(most_recent_entry)
         
         # Format entries into JSON file
         with open(applicant_data, "w") as file:
@@ -58,12 +71,12 @@ def pull_data():
         # Clean applicant data with local LLM
         clean_data.clean_data()
 
-        with open("llm_extend_applicant_data1.txt", "r") as file:
+        with open("llm_extend_applicant_data.txt", "r") as file:
             content = file.read()
             content = content.replace("}", "},", content.count("}") - 1)        
             formatted_json = "[" + content + "]"
 
-        with open("llm_extend_applicant_data1.json", "w") as file:
+        with open("llm_extend_applicant_data.json", "w") as file:
             file.write(formatted_json)
                 
     else:
@@ -75,8 +88,10 @@ def pull_data():
 @page.route("/update-analysis/")
 def update_analysis():
     load_data(dbname, user, password)
+    q_data = Query(dbname, user, password)
+    all_data = q_data.run_query()
     print("Updating.")
-    return home()
+    return render_template("home.html", data=all_data)
 
 # Run application
 if __name__ == "__main__":

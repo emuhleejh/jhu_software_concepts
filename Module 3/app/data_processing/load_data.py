@@ -40,7 +40,7 @@ def load_data(dbname, user, password):
      
      with connection.cursor() as c:
           
-          with open(".module 3/llm_extend_applicant_data.json", "r", encoding="utf-8") as f:
+          with open("llm_extend_applicant_data.json", "r", ) as f:
                applicant_data = json.loads(f.read())
 
           query = ""
