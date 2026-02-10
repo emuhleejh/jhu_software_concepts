@@ -2,7 +2,7 @@ import psycopg
 import json
 import re
 
-connection = psycopg.connect(dbname = "applicants", user = "postgres", password = "python")
+# Regex for GPA
 gpa_re = re.compile("(\A\d?\.\d+\z|\A\d\z)")
 
 def create_table(dbname, user, password):

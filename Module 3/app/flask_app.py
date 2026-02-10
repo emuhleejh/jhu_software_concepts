@@ -1,9 +1,6 @@
 # Necessary modules to operate programs
-import os
 import psycopg
-import json
 from flask import Flask, render_template
-# For parsing authentication
 from urllib import parse, robotparser
 
 from data_processing.query_data import Query
@@ -32,10 +29,9 @@ def home():
     all_data = q_data.run_query()
     return render_template("home.html", data=all_data)
 
+# Proceed with scraping and processing sequence
 @page.route("/pull-data/")
 def pull_data():
-    print("Processing...")
-
     parser = robotparser.RobotFileParser(base_url)
     parser.set_url(parse.urljoin(base_url, "robots.txt"))
     parser.read() 
@@ -44,17 +40,17 @@ def pull_data():
     if parser.can_fetch(agent,base_url) == True:
         print("Authentication succeeded. Proceeding with program.")
 
+        # Connect to database
         connection = psycopg.connect(dbname = dbname, 
                                   user = user, 
                                   password = password)
         
+        # Grab most recent entry collected from website
         with connection.cursor() as c:
             c.execute("""SELECT MAX(NULLIF(regexp_replace(url, '\D','','g'), '')::numeric) AS result
                         FROM   results;
                       """)
-            
             row = c.fetchone()
-            
             most_recent_entry = int((row[0]))
             
         # Create Scrape object from website
@@ -71,11 +67,13 @@ def pull_data():
         # Clean applicant data with local LLM
         clean_data.clean_data()
 
+        # Format txt file as json in memory
         with open("llm_extend_applicant_data.txt", "r") as file:
             content = file.read()
             content = content.replace("}", "},", content.count("}") - 1)        
             formatted_json = "[" + content + "]"
 
+        # Write json memory to json file
         with open("llm_extend_applicant_data.json", "w") as file:
             file.write(formatted_json)
                 
@@ -85,12 +83,16 @@ def pull_data():
 
     return home()
 
+# Analyze all scraped and processed data
 @page.route("/update-analysis/")
 def update_analysis():
+
+    # Load data into database
     load_data(dbname, user, password)
+
+    # Process data through queries
     q_data = Query(dbname, user, password)
     all_data = q_data.run_query()
-    print("Updating.")
     return render_template("home.html", data=all_data)
 
 # Run application
