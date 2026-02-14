@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: ehammer
+Version: 1.0
+Summary: Setup module
+Author: ehammer
+Author-email: ehammer@jh.edu
+Dynamic: author
+Dynamic: author-email
+Dynamic: summary
