@@ -1,6 +1,6 @@
 # Necessary modules to operate programs
 import psycopg
-from flask import Flask, render_template
+from flask import Flask, render_template, Response
 from urllib import parse, robotparser
 
 from data_processing.query_data import Query
@@ -22,9 +22,11 @@ password = "python"
 
 page = Flask(__name__)
 
+cache = {"pull-in-progress": False, "update-in-progress": False}
+
 
 # Return 'home' html template when endpoint matches '/'
-@page.route("/")
+@page.route("/", methods=['GET', 'POST'])
 def home():
     # global retrieving_data
 
@@ -32,21 +34,14 @@ def home():
     all_data = q_data.run_query()
     return render_template("home.html", data=all_data, rendering = False)
 
-# Proceed with scraping and processing sequence
-@page.route("/pull-data/")
-def pull_data():
-    # global retrieving_data
-
-    # if retrieving_data == False:
-
-    #     retrieving_data = True
-
+def run_parser():
     parser = robotparser.RobotFileParser(base_url)
     parser.set_url(parse.urljoin(base_url, "robots.txt"))
     parser.read() 
     
     # Run program if auth succeeds, return error if auth fails
     if parser.can_fetch(agent,base_url) == True:
+        cache["pull-in-progress"] = True
         print("Authentication succeeded. Proceeding with program.")
 
         # Connect to database
@@ -95,10 +90,35 @@ def pull_data():
             Access denied for {agent} on {base_url}.")
         retrieving_data = False
 
+    cache["pull-in-progress"] = False
+
+
+# Proceed with scraping and processing sequence
+@page.route("/pull-data/", methods=['GET', 'POST'])
+def pull_data():
+    # global retrieving_data
+
+    # if retrieving_data == False:
+
+    #     retrieving_data = True
+    if cache["pull-in-progress"]:
+        return Response("{'a':'b'}", status=409, mimetype='application/json')
+
+    run_parser()
+
     return home()
 
+def update_query():
+    cache["update-in-progress"] = True
+    q_data = Query(dbname, user, password)
+    all_data = q_data.run_query()
+    cache["update-in-progress"] = False
+
+    return all_data
+    
+
 # Analyze all scraped and processed data
-@page.route("/update-analysis/")
+@page.route("/update-analysis/", methods=['GET', 'POST'])
 def update_analysis():
     # global retrieving_data
 
@@ -106,9 +126,11 @@ def update_analysis():
     #     retrieving_data = True
         
     # Process data through queries
-    q_data = Query(dbname, user, password)
-    all_data = q_data.run_query()
-        # retrieving_data = False
+    if cache["update-in-progress"] is True or cache["pull-in-progress"] is True:
+        print(cache["pull-in-progress"])
+        return Response("{'a':'b'}", status=409, mimetype='application/json')
+
+    all_data = update_query()
     
     return render_template("home.html", data=all_data)
 

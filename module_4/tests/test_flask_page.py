@@ -1,7 +1,5 @@
 import pytest
-import requests
 from src.flask_app import page
-# from src.flask_app import create_app
 
 @pytest.fixture()
 def app():
