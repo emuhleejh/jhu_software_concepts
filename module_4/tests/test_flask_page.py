@@ -16,7 +16,8 @@ def runner(app):
     return app.test_cli_runner()
 
 def test_flask_app_created(client):
-    assert client.get("/").status_code == 200
+    app_return = client.get("/")
+    assert app_return.status_code == 200
 
 def test_flask_app_contains_update_button(client):
     response = client.get("/")
