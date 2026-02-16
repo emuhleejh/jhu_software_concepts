@@ -16,12 +16,14 @@ def client(app):
 def runner(app):
     return app.test_cli_runner()
 
+@pytest.mark.analysis
 def test_check_for_answer(client):
     response = client.get("/")
     response_text = response.data.decode("utf-8")
     count_answer = response_text.count("Answer")
     assert count_answer > 10
 
+@pytest.mark.analysis
 def test_check_percent_format(client):
     response = client.get("/")
     response_text = response.data.decode("utf-8")

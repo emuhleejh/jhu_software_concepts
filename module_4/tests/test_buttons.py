@@ -18,6 +18,7 @@ def client(app):
 def runner(app):
     return app.test_cli_runner()
 
+@pytest.mark.buttons
 def test_pull_data(client):
 
     monkeypatch = MonkeyPatch()
@@ -28,6 +29,7 @@ def test_pull_data(client):
     pull_return = client.post("/pull-data/")
     assert pull_return.status_code == 200
 
+@pytest.mark.buttons
 def test_pull_data_busy(client):
 
     monkeypatch = MonkeyPatch()
@@ -39,6 +41,7 @@ def test_pull_data_busy(client):
     assert client.post("/pull-data/").status_code == 409
 
 
+@pytest.mark.buttons
 def test_update_analysis(client):
 
     monkeypatch = MonkeyPatch()
@@ -53,6 +56,7 @@ def test_update_analysis(client):
     update_return = client.post("/update-analysis/")
     assert update_return.status_code == 200
 
+@pytest.mark.buttons
 def test_update_analysis_busy(client):
 
     monkeypatch = MonkeyPatch()

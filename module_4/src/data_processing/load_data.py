@@ -5,8 +5,24 @@ import re
 # Regex for GPA
 gpa_re = re.compile("(\A\d?\.\d+\z|\A\d\z)")
 
+applicant_data_file = "llm_extend_applicant_data.json"
+
+
+
 # Create table in database to hold applicant info
 def create_table(dbname, user, password):
+     """
+     Docstring for create_table
+     
+     :param dbname: Name of the database being accessed
+     :type dbname: str
+
+     :param user: Username to access the database
+     :type user: str
+
+     :param password: Password to access database with given username
+     :type password: str
+     """
 
      # Connect to database
      connection = psycopg.connect(dbname = dbname, 
@@ -37,8 +53,29 @@ def create_table(dbname, user, password):
           c.close()
           connection.close()
      
+
+def validate_entry(cursor, json_object):
+     query = f"SELECT 1 FROM results WHERE URL = %s"
+     
+     cursor.execute(query, (json_object["url"]))
+
+     return cursor.fetchone() is None
+
+
 # Load data from file into database
 def load_data(dbname, user, password):
+     """
+     Load data from JSON file to database.
+     
+     :param dbname: Name of the database being accessed
+     :type dbname: str
+
+     :param user: Username to access the database
+     :type user: str
+
+     :param password: Password to access database with given username
+     :type password: str
+     """
 
      # Connect to database
      connection = psycopg.connect(dbname = dbname, 
@@ -48,7 +85,7 @@ def load_data(dbname, user, password):
      with connection.cursor() as c:
           
           # Read file with entries for database
-          with open("llm_extend_applicant_data.json", "r", ) as f:
+          with open(applicant_data_file, "r", ) as f:
                applicant_data = json.loads(f.read())
 
           # Empty query string
@@ -56,6 +93,8 @@ def load_data(dbname, user, password):
           
           # Format each entry in file as json object, append to query string
           for json_object in applicant_data:
+                    
+               if validate_entry(c, json_object):
                     if json_object["gpa"] == "":
                          json_object["gpa"] = "NULL"
 
@@ -94,3 +133,17 @@ def load_data(dbname, user, password):
      c.close()
      connection.close()
      
+
+
+def clear_data():
+     """
+     For testing; empties database.
+     """
+     connection = psycopg.connect(dbname = "test_database", user = "postgres", password = "python")
+     with connection.cursor() as c:
+          c.execute("DELETE FROM results;")
+          connection.commit()
+
+          c.close()
+
+          connection.close()
