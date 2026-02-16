@@ -55,9 +55,9 @@ def create_table(dbname, user, password):
      
 
 def validate_entry(cursor, json_object):
-     query = f"SELECT 1 FROM results WHERE URL = %s"
-     
-     cursor.execute(query, (json_object["url"]))
+     query = f"SELECT 1 FROM results WHERE URL = '{json_object["url"]}'"
+
+     cursor.execute(query)
 
      return cursor.fetchone() is None
 

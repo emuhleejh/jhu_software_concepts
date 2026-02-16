@@ -47,5 +47,17 @@ def test_insert_duplicate(client):
 
     assert b"Applicant Count: 1" in response.data
     
-# @pytest.mark.db
-# def test_query_dict():
+@pytest.mark.db
+def test_query_dict(client):
+
+    monkeypatch = MonkeyPatch()
+    def mock_run_parser():
+        load_data.load_data(flask_app.dbname, flask_app.user, flask_app.password)
+
+    monkeypatch.setattr(flask_app, 'run_parser', mock_run_parser)
+
+    response = client.post("/pull-data/")
+
+    test_data = flask_app.update_query()
+
+    assert hasattr(test_data, "avg_gpa") == True
