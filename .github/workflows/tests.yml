@@ -6,22 +6,18 @@ on:
   workflow_dispatch:
 
 jobs:
-  basic:
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - ubuntu-22.04
-          - ubuntu-24.04
-          - windows-2025
-          - macos-15
-    runs-on: ${{ matrix.os }}
+  simple:
+    name: "Run Pytest Summary"
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: pytest tests
-        uses: ./
+      - uses: actions/checkout@main
+			- name: "Set up Python"
+        uses: actions/setup-python@main
+			  with:
+       	  python-version: "3.12"
+      - name: "Run tests"
+        uses: dariocurr/pytest-summary@v2.4
         with:
-          working-directory: module_4
-          build: python -m pytest tests
+          paths: module_4/tests/**.py
+          show: all
+
