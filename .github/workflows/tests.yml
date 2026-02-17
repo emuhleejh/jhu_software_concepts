@@ -1,0 +1,25 @@
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  basic:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-22.04
+          - ubuntu-24.04
+          - windows-2025
+          - macos-15
+    runs-on: ${{ matrix.os }}
+    steps:
+
+      - name: pytest tests
+        uses: ./
+        with:
+          working-directory: module_4
+          build: python -m pytest tests
