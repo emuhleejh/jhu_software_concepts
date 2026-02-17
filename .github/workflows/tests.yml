@@ -17,6 +17,8 @@ jobs:
           - macos-15
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
       - name: pytest tests
         uses: ./
