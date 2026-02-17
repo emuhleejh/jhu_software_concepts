@@ -24,15 +24,18 @@ page = Flask(__name__)
 
 cache = {"pull-in-progress": False, "update-in-progress": False}
 
-
 # Return 'home' html template when endpoint matches '/'
 @page.route("/", methods=['GET', 'POST'])
 def home():
-    # global retrieving_data
+    """
+    Homepage of Flask App showing questions and results from database queries
 
+    :return: Homepage template
+    :rtype: html
+    """
     q_data = Query(dbname, user, password)
     all_data = q_data.run_query()
-    return render_template("home.html", data=all_data, rendering = False)
+    return render_template("home.html", data=all_data)
 
 def run_parser():
     parser = robotparser.RobotFileParser(base_url)
@@ -72,7 +75,7 @@ def run_parser():
         clean_data.clean_data()
 
         # Format txt file as json in memory
-        with open("llm_extend_applicant_data.txt", "r") as file:
+        with open("llm_extend_applicant_data.txt", "r", encoding="utf-8") as file:
             content = file.read()
             content = content.replace("}", "},", content.count("}") - 1)        
             formatted_json = "[" + content + "]"
@@ -83,12 +86,10 @@ def run_parser():
 
         # Load data into database
         load_data(dbname, user, password)
-        retrieving_data = False
                 
     else:
         print(f"Error: authentication failed. \
             Access denied for {agent} on {base_url}.")
-        retrieving_data = False
 
     cache["pull-in-progress"] = False
 
@@ -96,11 +97,12 @@ def run_parser():
 # Proceed with scraping and processing sequence
 @page.route("/pull-data/", methods=['GET', 'POST'])
 def pull_data():
-    # global retrieving_data
-
-    # if retrieving_data == False:
-
-    #     retrieving_data = True
+    """
+    Initiate the sequence of scraping new data
+    
+    :return: Homepage template
+    :rtype: html
+    """
     if cache["pull-in-progress"]:
         return Response("{'a':'b'}", status=409, mimetype='application/json')
 
@@ -120,11 +122,12 @@ def update_query():
 # Analyze all scraped and processed data
 @page.route("/update-analysis/", methods=['GET', 'POST'])
 def update_analysis():
-    # global retrieving_data
-
-    # if retrieving_data == False:
-    #     retrieving_data = True
-        
+    """
+    Update the analysis on the homepage to reflect recently pulled data
+    
+    :return: Homepage template
+    :rtype: html
+    """
     # Process data through queries
     if cache["update-in-progress"] is True or cache["pull-in-progress"] is True:
         print(cache["pull-in-progress"])
@@ -136,6 +139,4 @@ def update_analysis():
 
 # Run application
 if __name__ == "__main__":
-    # global retrieving_data
-    # retrieving_data = False
     page.run(host="0.0.0.0", port=8080, debug=True)

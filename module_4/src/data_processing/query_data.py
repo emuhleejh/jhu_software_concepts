@@ -2,7 +2,16 @@ import psycopg
 
 class Query():
     """
-    Docstring for Query
+    Aggregate queries of applicant data.
+
+     :param dbname: Name of the database being accessed
+     :type dbname: str
+
+     :param user: Username to access the database
+     :type user: str
+
+     :param password: Password to access database with given username
+     :type password: str
     """
     def __init__(self, dbname, user, password):
         self.dbname = dbname
@@ -29,11 +38,12 @@ class Query():
         self.uni_most_accept = ""
         self.uni_accept_ct = ""
 
-
     # Series of analysis SQL calls
     def run_query(self):
         """
         Queries data in database for analysis.
+
+        :return: Variables attached to self
         """
 
         # Connect to database
@@ -64,7 +74,7 @@ class Query():
             for row in rows:
                 if row[0] == "International":
                     intl = row[1]
-                else:
+                elif row[0] == "American":
                     us = row[1]
             if intl == 0 and us == 0:
                 self.pct_intl = "0.00"

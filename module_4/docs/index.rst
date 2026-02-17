@@ -3,16 +3,19 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-module_4 documentation
+Grad Cafe Database & Analytics Documentation
 ======================
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
-
-.. automodule:: add
-
-.. toctree::
+.. toctree:: 
    :maxdepth: 2
-   :caption: Contents:
+
+   overview
+   architecture
+   api
+   testing
+   notes
+   
+
+
+   
 

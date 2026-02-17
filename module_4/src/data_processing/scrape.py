@@ -7,6 +7,18 @@ import json
 from data_processing.student import Student
 
 class Scrape():
+    """
+    Scrape data from website
+
+    :param base: Base URL of the webpage being searched
+    :type base: str
+
+    :param url: Full URL of the webpage being searched
+    :type url: str
+
+    :param agent: User accessing the webpage, used for authentication
+    :type agent: str
+    """
     def __init__(self, base, url, agent):
         # Base URL of website being searched
         self.base = base
@@ -18,6 +30,12 @@ class Scrape():
         self.results = []
 
     def scrape_data(self, recent_entry):
+        """
+        Pull data from the webpage
+
+        :param recent_entry: Unique ID of the most recent entry pulled from the webpage
+        :param recent_entry: int
+        """
         # Initiate state machine
         state = 1
         # Regex for program start term
@@ -175,6 +193,12 @@ class Scrape():
 
     # Format entire 'results' list of Student objects as JSON
     def load_data(self):
+        """
+        Format list of objects as json-formatted string
+
+        :return: json-formatted string of objects
+        :rtype: str
+        """
         student_list = []
 
         for result in self.results:

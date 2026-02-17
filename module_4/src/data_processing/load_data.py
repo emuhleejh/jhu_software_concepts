@@ -7,8 +7,6 @@ gpa_re = re.compile("(\A\d?\.\d+\z|\A\d\z)")
 
 applicant_data_file = "llm_extend_applicant_data.json"
 
-
-
 # Create table in database to hold applicant info
 def create_table(dbname, user, password):
      """
@@ -54,11 +52,23 @@ def create_table(dbname, user, password):
           connection.close()
      
 
+#SQL query to check if given entry is already in database
 def validate_entry(cursor, json_object):
+     """
+     Confirm entry is not already in database
+
+     :param cursor: Connection to database
+     :type cursor: refcursor
+
+     :param json_object: Entry to be checked for in database
+     :type json_object: json
+
+     :return: Determination whether the entry is unique
+     :rtype: bool
+     """
+     
      query = f"SELECT 1 FROM results WHERE URL = '{json_object["url"]}'"
-
      cursor.execute(query)
-
      return cursor.fetchone() is None
 
 
@@ -132,8 +142,6 @@ def load_data(dbname, user, password):
           connection.commit()
      c.close()
      connection.close()
-     
-
 
 def clear_data():
      """

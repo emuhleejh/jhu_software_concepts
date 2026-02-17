@@ -1,5 +1,8 @@
 # Class Student for information gathered about a student
 class Student():
+    """
+    Unique student applicant object
+    """
     def __init__(self):
         self.program = ""
         self.comments = ""
@@ -18,6 +21,12 @@ class Student():
 
     # Format stored data about each Student object
     def format(self):
+        """
+        Format data on self as json-formatted string
+        
+        :return: json-formatted string of student applicant
+        :rtype: str
+        """
         student_data = {"program": self.program,
                         "comments": self.comments,
                         "date_added": self.date_added,
