@@ -51,7 +51,6 @@ def test_update_analysis(client):
     def mock_update_query():
         return Query(src.flask_app.dbname, src.flask_app.user, src.flask_app.password)
 
-
     monkeypatch.setattr(src.flask_app, 'update_query', mock_update_query)
 
     update_return = client.post("/update-analysis/")

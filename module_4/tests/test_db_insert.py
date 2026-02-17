@@ -23,7 +23,10 @@ def runner(app):
 @pytest.mark.db
 def test_insert(client):
 
+    flask_app.cache["pull-in-progress"]=False
+    flask_app.cache["update-in-progress"]=False
     monkeypatch = MonkeyPatch()
+
     def mock_run_parser():
         load_data.clear_data()
         load_data.load_data(flask_app.dbname, flask_app.user, flask_app.password)
@@ -36,9 +39,14 @@ def test_insert(client):
 @pytest.mark.db
 def test_insert_duplicate(client):
 
+    load_data.clear_data()
+    flask_app.cache["pull-in-progress"]=False
+    flask_app.cache["update-in-progress"]=False
+
     monkeypatch = MonkeyPatch()
     def mock_run_parser():
         load_data.load_data(flask_app.dbname, flask_app.user, flask_app.password)
+        
 
     monkeypatch.setattr(flask_app, 'run_parser', mock_run_parser)
 
@@ -50,6 +58,10 @@ def test_insert_duplicate(client):
 @pytest.mark.db
 def test_query_dict(client):
 
+    load_data.clear_data()
+    flask_app.cache["pull-in-progress"]=False
+    flask_app.cache["update-in-progress"]=False
+    
     monkeypatch = MonkeyPatch()
     def mock_run_parser():
         load_data.load_data(flask_app.dbname, flask_app.user, flask_app.password)

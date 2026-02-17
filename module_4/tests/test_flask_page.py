@@ -23,12 +23,12 @@ def test_flask_app_created(client):
 @pytest.mark.web
 def test_flask_app_contains_update_button(client):
     response = client.get("/")
-    assert b"<form action=\"/update-analysis/\">" in response.data
+    assert b"update-analysis-btn" in response.data
 
 @pytest.mark.web
 def test_flask_app_contains_pull_button(client):
     response = client.get("/")
-    assert b"<form action=\"/pull-data/\">" in response.data
+    assert b"pull-data-btn" in response.data
 
 @pytest.mark.web
 def test_flask_app_contains_analysis(client):
