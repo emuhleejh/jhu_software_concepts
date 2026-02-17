@@ -16,7 +16,5 @@ jobs:
           python-version: "3.12"
       - name: "Run tests"
         uses: dariocurr/pytest-summary@v2.4
-        with:
-          paths: module_4/tests/**.py
-          show: all
+
 
