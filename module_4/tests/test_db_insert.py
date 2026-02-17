@@ -1,12 +1,12 @@
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
-from src.flask_app import page
+from src.flask_app import create_app
 import src.flask_app as flask_app
 import src.data_processing.load_data as load_data
 
 @pytest.fixture()
 def app():
-    app = page
+    app = create_app()
     app.config.update({"TESTING" : True,})
     flask_app.dbname = "test_database"
     load_data.applicant_data_file = "tests\\sample_llm_extend_applicant_data.json"

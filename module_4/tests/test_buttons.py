@@ -1,12 +1,13 @@
 import pytest
+import src.flask_app as flask_app
 from _pytest.monkeypatch import MonkeyPatch
-from src.flask_app import page
+from src.flask_app import create_app
 from src.data_processing.query_data import Query
 
 import src.flask_app
 @pytest.fixture()
 def app():
-    app = page
+    app = create_app()
     app.config.update({"TESTING" : True,})
     yield app
 
@@ -45,12 +46,12 @@ def test_pull_data_busy(client):
 def test_update_analysis(client):
 
     monkeypatch = MonkeyPatch()
+    flask_app.cache["update-in-progress"] = False
+    flask_app.cache["pull-in-progress"] = False
     def mock_update_query():
-        src.flask_app.cache["update-in-progress"] = False
-        src.flask_app.cache["pull-in-progress"] = False
         return Query(src.flask_app.dbname, src.flask_app.user, src.flask_app.password)
-        
-    
+
+
     monkeypatch.setattr(src.flask_app, 'update_query', mock_update_query)
 
     update_return = client.post("/update-analysis/")

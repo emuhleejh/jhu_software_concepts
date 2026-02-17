@@ -1,10 +1,10 @@
 import pytest
-from src.flask_app import page
+from src.flask_app import create_app
 import re
 
 @pytest.fixture()
 def app():
-    app = page
+    app = create_app()
     app.config.update({"TESTING" : True,})
     yield app
 
