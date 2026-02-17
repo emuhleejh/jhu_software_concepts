@@ -10,11 +10,10 @@ jobs:
     name: "Run Pytest Summary"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
-	  - name: "Set up Python"
+      - name: "Set up Python"
         uses: actions/setup-python@main
-		with:
-       	  python-version: "3.12"
+        with:
+          python-version: "3.12"
       - name: "Run tests"
         uses: dariocurr/pytest-summary@v2.4
         with:
