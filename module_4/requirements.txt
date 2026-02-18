@@ -4,4 +4,3 @@ psycopg>=3.3
 sphinx>=9.1.0
 pytest>=9.0
 ./src
-sphinx-rtd-theme

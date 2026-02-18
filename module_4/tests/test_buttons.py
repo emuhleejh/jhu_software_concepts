@@ -3,6 +3,9 @@ import src.flask_app as flask_app
 from _pytest.monkeypatch import MonkeyPatch
 from src.flask_app import create_app
 from src.data_processing.query_data import Query
+from src.data_processing.clean import Clean
+import src.data_processing.clean as clean
+import src.data_processing.load_data as load_data
 
 import src.flask_app
 @pytest.fixture()
@@ -59,11 +62,11 @@ def test_update_analysis(client):
 @pytest.mark.buttons
 def test_update_analysis_busy(client):
 
+    # Mock function for updating analysis
     monkeypatch = MonkeyPatch()
     def mock_update_query():
         src.flask_app.cache["pull-in-progress"] = True
-    
-    monkeypatch.setattr(src.flask_app, 'update_query', mock_update_query)
+    monkeypatch.setattr(src.flask_app, "update_query", mock_update_query)
 
     client.post("/update-analysis/")
     update_return = client.post("/update-analysis/")

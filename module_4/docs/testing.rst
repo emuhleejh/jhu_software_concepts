@@ -7,19 +7,15 @@ Full Test Suite Run
 -----------------------
 To run the entire suite of tests, run:
 ``pytest module_4``
-within the module_4 folder.
+within the active directory.
 
--k Selector: Keyword test run
------------------------
-Run 
-
--m Selector: Specific Test Run
+Specific Test Run
 -----------------------
 Each test is labeled with a mark, and can be run grouped with other tests of the same mark.
 
 To run a group of tests with a specific mark, run: 
-``pytest -m "mark"``
-within the module_4 folder, replacing "mark" with a valid option from below.
+``pytest -m "mark"`` 
+within the active directory, replacing "mark" with a valid option from below.
 
 Available marks:
 * web — page load / HTML structure
@@ -36,4 +32,9 @@ Tests use Monkeypatch to create mock functions that interact with sample data an
 Test Fixtures
 -----------------------
 Test fixtures connect to the main app for proper testing, and configure the app to be in a testing state.
-expected selectors, and any test doubles/fixtures you provide
+
+Selectors
+-----------------------
+For user interface tests of buttons on the webpage, two selectors have been provided:
+* pull-data-btn
+* update-analysis-btn

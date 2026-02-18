@@ -29,7 +29,7 @@ def test_end_to_end(client):
         load_data.load_data(flask_app.dbname, flask_app.user, flask_app.password)
 
     monkeypatch.setattr(flask_app, 'run_parser', mock_run_parser)
-
+    print("HIIIIIIIII I AM DATAAAAAAAAAAAA")
     client.post("/pull-data/")
     flask_app.cache["pull-in-progress"]=False
     flask_app.cache["update-in-progress"]=False
@@ -37,9 +37,10 @@ def test_end_to_end(client):
     client.post("/update-analysis/")
 
     response = client.get("/")
+    
     print (response.data)
 
-    assert b"Applicant Count: " in response.data
+    assert b"Applicant Count: 4" in response.data
 
 @pytest.mark.integration
 def test_end_to_end_uniqueness(client):
@@ -51,6 +52,8 @@ def test_end_to_end_uniqueness(client):
     monkeypatch.setattr(flask_app, 'run_parser', mock_run_parser)
 
     response = client.post("/pull-data/")
+    flask_app.cache["pull-in-progress"]=False
+    flask_app.cache["update-in-progress"]=False
     response = client.post("/pull-data/")
 
-    assert b"Applicant Count: " in response.data
+    assert b"Applicant Count: 4" in response.data

@@ -3,6 +3,9 @@ from _pytest.monkeypatch import MonkeyPatch
 from src.flask_app import create_app
 import src.flask_app as flask_app
 import src.data_processing.load_data as load_data
+from src.data_processing.query_data import Query
+from src.flask_app import update_query
+
 
 @pytest.fixture()
 def app():
@@ -70,6 +73,22 @@ def test_query_dict(client):
 
     response = client.post("/pull-data/")
 
-    test_data = flask_app.update_query()
-
+    test_data = update_query()
+    print("HIIIIIIIIIIII RIGHT HEREEEEEEEEEEEEEE")
+    print(test_data)
     assert hasattr(test_data, "avg_gpa") == True
+
+
+@pytest.mark.db
+def test_empty_db_pull(client):
+    load_data.clear_data()
+
+    query = Query(flask_app.dbname, flask_app.user, flask_app.password)
+
+    query.run_query()
+
+    valid = True
+    if query.avg_accept_gpa_f26 != "0.00" or query.ct_select_phd_cs != 0 or query.ct_select_phd_cs_llm != 0:
+        valid = False
+        
+    assert valid == True

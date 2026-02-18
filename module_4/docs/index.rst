@@ -14,8 +14,3 @@ Grad Cafe Database & Analytics Documentation
    api
    testing
    notes
-   
-
-
-   
-

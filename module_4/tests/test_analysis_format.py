@@ -18,10 +18,15 @@ def runner(app):
 
 @pytest.mark.analysis
 def test_check_for_answer(client):
+    # Call website open
     response = client.get("/")
     response_text = response.data.decode("utf-8")
+
+    # Count number of times 'Answer' appears in page
     count_answer = response_text.count("Answer")
-    assert count_answer > 10
+
+    #
+    assert count_answer >= 13
 
 @pytest.mark.analysis
 def test_check_percent_format(client):

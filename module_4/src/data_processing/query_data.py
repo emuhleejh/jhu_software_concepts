@@ -257,4 +257,3 @@ class Query():
         c.close()
         connection.close()
 
-        return self
