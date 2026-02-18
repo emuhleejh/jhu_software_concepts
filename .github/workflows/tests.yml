@@ -33,7 +33,7 @@ jobs:
           sudo systemctl start postgresql.service
           pg_isready
           sudo -u postgres createuser -s -d -r -w runner
-          psql -d postgresql://postgres@localhost/test_database -f module_4/tests/create_table.sql
+          psql -d postgresql://postgres:python@localhost/test_database -f module_4/tests/create_table.sql
           echo $POSTGRES_PASSWORD
         env:
           POSTGRES_HOST: localhost
