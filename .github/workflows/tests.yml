@@ -30,7 +30,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r module_4/requirements.txt
       - name: Connect to postgres
-        run: psql -d postgresql://postgres@localhost/test_database -f module_4/tests/create_table.sql
+        run: |
+          sudo systemctl start postgresql.service
+          psql -d postgresql://postgres@localhost/test_database -f module_4/tests/create_table.sql
       - name: "Run tests"
         run: |
           pip install pytest
