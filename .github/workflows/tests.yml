@@ -11,6 +11,7 @@ jobs:
       postgres:
         image: postgis/postgis:16-3.4
         env:
+          POSTGRES_HOST: localhost
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: python
           PGDATABASE:

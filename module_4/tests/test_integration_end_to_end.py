@@ -8,6 +8,7 @@ from src.flask_app import create_app
 import src.flask_app as flask_app
 import src.data_processing.load_data as load_data
 
+# Preliminary setup for testing app
 @pytest.fixture()
 def app():
     app = create_app()
@@ -26,6 +27,8 @@ def runner(app):
 
 @pytest.mark.integration
 def test_end_to_end(client):
+
+    # Clear data
     load_data.clear_data()
 
     monkeypatch = MonkeyPatch()
@@ -33,16 +36,12 @@ def test_end_to_end(client):
         load_data.load_data(flask_app.dbname, flask_app.user, flask_app.password)
 
     monkeypatch.setattr(flask_app, 'run_parser', mock_run_parser)
-    print("HIIIIIIIII I AM DATAAAAAAAAAAAA")
+
     client.post("/pull-data/")
     flask_app.cache["pull-in-progress"]=False
     flask_app.cache["update-in-progress"]=False
-
     client.post("/update-analysis/")
-
     response = client.get("/")
-    
-    print (response.data)
 
     assert b"Applicant Count: 4" in response.data
 

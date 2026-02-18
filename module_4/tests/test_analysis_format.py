@@ -6,6 +6,7 @@ import pytest
 from src.flask_app import create_app
 import re
 
+# Preliminary setup for testing app
 @pytest.fixture()
 def app():
     app = create_app()
