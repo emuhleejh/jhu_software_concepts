@@ -8,12 +8,12 @@ Running the App
 -----------------------
 To run the app from your terminal, run:
 ``python flask_app.py``
-in the course directory.
+in the ``source`` directory.
 
 Running Tests
 -----------------------
-To run the full suite of tests, run: 
-``pytest``
-within the course directory.
+To run the entire suite of tests, run:
+``pytest module_4``
+within the active directory.
 
 For more information on testing, please visit :ref:`testing-label`.

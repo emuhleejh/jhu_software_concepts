@@ -1,0 +1,19 @@
+===================================== tests coverage ===================================== 
+____________________ coverage: platform win32, python 3.14.2-final-0 _____________________ 
+
+Name                                Stmts   Miss  Cover   Missing
+-----------------------------------------------------------------
+src\__init__.py                         7      0   100%
+src\data_processing\clean.py            9      2    78%   15, 24
+src\data_processing\load_data.py       42      0   100%
+src\data_processing\query_data.py     127      3    98%   147, 177, 194
+src\data_processing\scrape.py          99     87    12%   28-34, 44-196, 206-211
+src\data_processing\student.py         22     16    27%   11-24, 34-50
+src\flask_app.py                       86     34    60%   54-68, 71-115, 161-162
+src\setup.py                            5      5     0%   1-7
+-----------------------------------------------------------------
+TOTAL                                 397    147    63%
+17 passed in 4.26s
+
+=====================================
+Student note: I specifically crafted tests to account for these lines and they were run through the tests so I am unsure why they are not being counted as covered.

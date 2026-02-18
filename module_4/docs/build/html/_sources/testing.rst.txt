@@ -8,9 +8,6 @@ Full Test Suite Run
 To run the entire suite of tests, run:
 ``pytest module_4``
 within the active directory.
-Keyword test run
------------------------
-Run 
 
 Specific Test Run
 -----------------------
@@ -35,4 +32,9 @@ Tests use Monkeypatch to create mock functions that interact with sample data an
 Test Fixtures
 -----------------------
 Test fixtures connect to the main app for proper testing, and configure the app to be in a testing state.
-expected selectors, and any test doubles/fixtures you provide
+
+Selectors
+-----------------------
+For user interface tests of buttons on the webpage, two selectors have been provided:
+* pull-data-btn
+* update-analysis-btn

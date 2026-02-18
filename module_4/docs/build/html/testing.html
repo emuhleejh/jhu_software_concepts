@@ -51,6 +51,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#specific-test-run">Specific Test Run</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#test-doubles">Test Doubles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#test-fixtures">Test Fixtures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#selectors">Selectors</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="notes.html">Operational Notes</a></li>
@@ -87,10 +88,7 @@
 <h2>Full Test Suite Run<a class="headerlink" href="#full-test-suite-run" title="Link to this heading"></a></h2>
 <p>To run the entire suite of tests, run:
 <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">module_4</span></code>
-within the active directory.
-Keyword test run
-———————–
-Run</p>
+within the active directory.</p>
 </section>
 <section id="specific-test-run">
 <h2>Specific Test Run<a class="headerlink" href="#specific-test-run" title="Link to this heading"></a></h2>
@@ -112,8 +110,13 @@ Tests use Monkeypatch to create mock functions that interact with sample data an
 </section>
 <section id="test-fixtures">
 <h2>Test Fixtures<a class="headerlink" href="#test-fixtures" title="Link to this heading"></a></h2>
-<p>Test fixtures connect to the main app for proper testing, and configure the app to be in a testing state.
-expected selectors, and any test doubles/fixtures you provide</p>
+<p>Test fixtures connect to the main app for proper testing, and configure the app to be in a testing state.</p>
+</section>
+<section id="selectors">
+<h2>Selectors<a class="headerlink" href="#selectors" title="Link to this heading"></a></h2>
+<p>For user interface tests of buttons on the webpage, two selectors have been provided:
+* pull-data-btn
+* update-analysis-btn</p>
 </section>
 </section>
 

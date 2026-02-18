@@ -69,4 +69,4 @@ Program tests that:
 - Attempting to pull data twice with duplicate data will enforce the uniqueness policy, utilizing a mock function in place of run_parser() from flask_app.py
 
 ## Known bugs:
-Multiple runs of pytest -cov did not change even after tests were updated to specifically addressed missed lines. For example, in test_db_insert.py, teset_empty_db_pull() tests lines 143, 173, and 190 in src\data_processing\query_data.py but rerunning -cov displays that those lines are still untested.
+Multiple runs of pytest -cov did not change even after tests were updated to specifically addressed missed lines. For example, in test_db_insert.py, teset_empty_db_pull() tests lines 147, 177, and 194 in src\data_processing\query_data.py but rerunning -cov displays that those lines are still untested.

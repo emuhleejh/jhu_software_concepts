@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Grad Cafe Database & Analytics Documentation
-======================
+============================================
 
 .. toctree:: 
    :maxdepth: 2
