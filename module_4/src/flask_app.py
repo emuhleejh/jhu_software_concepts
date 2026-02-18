@@ -1,3 +1,7 @@
+import sys
+from os.path import dirname
+sys.path.append(dirname(__file__))
+
 # Necessary modules to operate programs
 import psycopg
 from flask import Flask, render_template, Response, Blueprint

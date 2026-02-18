@@ -1,3 +1,7 @@
+import sys
+from os.path import dirname
+sys.path.append(dirname(__file__))
+
 from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen, Request
 

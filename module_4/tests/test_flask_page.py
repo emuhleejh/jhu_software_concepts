@@ -1,3 +1,7 @@
+import sys
+from os.path import dirname
+sys.path.append(dirname(__file__))
+
 import pytest
 from src.flask_app import create_app
 

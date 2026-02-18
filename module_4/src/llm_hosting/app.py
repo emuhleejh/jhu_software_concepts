@@ -1,3 +1,7 @@
+import sys
+from os.path import dirname
+sys.path.append(dirname(__file__))
+
 # -*- coding: utf-8 -*-
 """Flask + tiny local LLM standardizer with incremental JSONL CLI output."""
 
@@ -6,7 +10,6 @@ from __future__ import annotations
 import json
 import os
 import re
-import sys
 import difflib
 from typing import Any, Dict, List, Tuple
 

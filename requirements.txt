@@ -3,4 +3,3 @@ Flask>=2.3,<4
 psycopg>=3.3
 sphinx>=9.1.0
 pytest>=9.0
-./module_4/src

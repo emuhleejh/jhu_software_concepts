@@ -1,3 +1,7 @@
+import sys
+from os.path import dirname
+sys.path.append(dirname(__file__))
+
 project = 'module_4'
 copyright = '2026, ehammer5'
 author = 'ehammer5'

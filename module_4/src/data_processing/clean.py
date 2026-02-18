@@ -1,5 +1,8 @@
+import sys
+from os.path import dirname
+sys.path.append(dirname(__file__))
+
 import subprocess
-import os
 
 # Class Clean to handle data processed in from 'filename' file
 class Clean():
