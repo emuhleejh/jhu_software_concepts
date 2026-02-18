@@ -14,8 +14,7 @@ jobs:
           POSTGRES_HOST: localhost
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: python
-          PGDATABASE:
-            test_database
+          PGDATABASE: test_database
           options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     runs-on: ubuntu-latest
     steps:
@@ -33,6 +32,11 @@ jobs:
         run: |
           sudo systemctl start postgresql.service
           psql -d postgresql://postgres@localhost/test_database -f module_4/tests/create_table.sql
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: python
+          PGDATABASE: test_database
       - name: "Run tests"
         run: |
           pip install pytest

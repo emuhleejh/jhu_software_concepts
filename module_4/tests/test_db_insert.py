@@ -11,6 +11,7 @@ from src.data_processing.query_data import Query
 from src.flask_app import update_query
 
 # Preliminary setup for testing app
+
 @pytest.fixture()
 def app():
     app = create_app()
