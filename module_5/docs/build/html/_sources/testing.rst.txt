@@ -1,0 +1,40 @@
+.. _testing-label:
+Testing Guide
+======================
+Testing of this package is done with PyTest.
+
+Full Test Suite Run
+-----------------------
+To run the entire suite of tests, run:
+``pytest module_4``
+within the active directory.
+
+Specific Test Run
+-----------------------
+Each test is labeled with a mark, and can be run grouped with other tests of the same mark.
+
+To run a group of tests with a specific mark, run: 
+``pytest -m "mark"`` 
+within the active directory, replacing "mark" with a valid option from below.
+
+Available marks:
+* web — page load / HTML structure
+* buttons — button endpoints & busy-state behavior
+* analysis — labels and percentage formatting
+* db — database schema/inserts/selects
+* integration — end-to-end flows
+
+Test Doubles
+-----------------------
+Tests reference sample data and interact with a test database to keep live data and database isolated from tests.
+Tests use Monkeypatch to create mock functions that interact with sample data and test database, including pulling data, loading data, and querying data.
+
+Test Fixtures
+-----------------------
+Test fixtures connect to the main app for proper testing, and configure the app to be in a testing state.
+
+Selectors
+-----------------------
+For user interface tests of buttons on the webpage, two selectors have been provided:
+* pull-data-btn
+* update-analysis-btn

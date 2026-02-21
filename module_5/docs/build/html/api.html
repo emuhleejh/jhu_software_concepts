@@ -1,0 +1,375 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Reference &mdash; module_4 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Testing Guide" href="testing.html" />
+    <link rel="prev" title="Architecture" href="architecture.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            module_4
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview &amp; Set-up</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-src.data_processing.scrape">Scrape.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#src.data_processing.scrape.Scrape"><code class="docutils literal notranslate"><span class="pre">Scrape</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#src.data_processing.scrape.Scrape.load_data"><code class="docutils literal notranslate"><span class="pre">Scrape.load_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.data_processing.scrape.Scrape.scrape_data"><code class="docutils literal notranslate"><span class="pre">Scrape.scrape_data()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-src.data_processing.student">Student.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#src.data_processing.student.Student"><code class="docutils literal notranslate"><span class="pre">Student</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#src.data_processing.student.Student.format"><code class="docutils literal notranslate"><span class="pre">Student.format()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-src.data_processing.clean">Clean.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#src.data_processing.clean.Clean"><code class="docutils literal notranslate"><span class="pre">Clean</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#src.data_processing.clean.Clean.clean_data"><code class="docutils literal notranslate"><span class="pre">Clean.clean_data()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-src.data_processing.load_data">Load_data.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#src.data_processing.load_data.clear_data"><code class="docutils literal notranslate"><span class="pre">clear_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.data_processing.load_data.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.data_processing.load_data.validate_entry"><code class="docutils literal notranslate"><span class="pre">validate_entry()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-src.data_processing.query_data">Query_data.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#src.data_processing.query_data.Query"><code class="docutils literal notranslate"><span class="pre">Query</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#src.data_processing.query_data.Query.run_query"><code class="docutils literal notranslate"><span class="pre">Query.run_query()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-src.flask_app">Flask_app.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#src.flask_app.home"><code class="docutils literal notranslate"><span class="pre">home()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.flask_app.pull_data"><code class="docutils literal notranslate"><span class="pre">pull_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.flask_app.update_analysis"><code class="docutils literal notranslate"><span class="pre">update_analysis()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes.html">Operational Notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">module_4</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading"></a></h1>
+<section id="module-src.data_processing.scrape">
+<span id="scrape-py"></span><h2>Scrape.py<a class="headerlink" href="#module-src.data_processing.scrape" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.data_processing.scrape.Scrape">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">src.data_processing.scrape.</span></span><span class="sig-name descname"><span class="pre">Scrape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.data_processing.scrape.Scrape" title="Link to this definition"></a></dt>
+<dd><p>Scrape data from website</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>base</strong> (<em>str</em>) – Base URL of the webpage being searched</p></li>
+<li><p><strong>url</strong> (<em>str</em>) – Full URL of the webpage being searched</p></li>
+<li><p><strong>agent</strong> (<em>str</em>) – User accessing the webpage, used for authentication</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.data_processing.scrape.Scrape.load_data">
+<span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.data_processing.scrape.Scrape.load_data" title="Link to this definition"></a></dt>
+<dd><p>Format list of objects as json-formatted string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>json-formatted string of objects</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.data_processing.scrape.Scrape.scrape_data">
+<span class="sig-name descname"><span class="pre">scrape_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recent_entry</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.data_processing.scrape.Scrape.scrape_data" title="Link to this definition"></a></dt>
+<dd><p>Pull data from the webpage</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>recent_entry</strong> – Unique ID of the most recent entry pulled from the webpage</p></li>
+<li><p><strong>recent_entry</strong> – int</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-src.data_processing.student">
+<span id="student-py"></span><h2>Student.py<a class="headerlink" href="#module-src.data_processing.student" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.data_processing.student.Student">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">src.data_processing.student.</span></span><span class="sig-name descname"><span class="pre">Student</span></span><a class="headerlink" href="#src.data_processing.student.Student" title="Link to this definition"></a></dt>
+<dd><p>Unique student applicant object</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.data_processing.student.Student.format">
+<span class="sig-name descname"><span class="pre">format</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.data_processing.student.Student.format" title="Link to this definition"></a></dt>
+<dd><p>Format data on self as json-formatted string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>json-formatted string of student applicant</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-src.data_processing.clean">
+<span id="clean-py"></span><h2>Clean.py<a class="headerlink" href="#module-src.data_processing.clean" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.data_processing.clean.Clean">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">src.data_processing.clean.</span></span><span class="sig-name descname"><span class="pre">Clean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.data_processing.clean.Clean" title="Link to this definition"></a></dt>
+<dd><p>Cleans given data by processing it through a local LLM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> – File name to be run through LLM</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.data_processing.clean.Clean.clean_data">
+<span class="sig-name descname"><span class="pre">clean_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.data_processing.clean.Clean.clean_data" title="Link to this definition"></a></dt>
+<dd><p>Function runs file through local LLM to auto-detect programs and universities for each row.         Creates a .txt file with original data and extended generated data.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-src.data_processing.load_data">
+<span id="load-data-py"></span><h2>Load_data.py<a class="headerlink" href="#module-src.data_processing.load_data" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.data_processing.load_data.clear_data">
+<span class="sig-prename descclassname"><span class="pre">src.data_processing.load_data.</span></span><span class="sig-name descname"><span class="pre">clear_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.data_processing.load_data.clear_data" title="Link to this definition"></a></dt>
+<dd><p>For testing; empties database.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.data_processing.load_data.load_data">
+<span class="sig-prename descclassname"><span class="pre">src.data_processing.load_data.</span></span><span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.data_processing.load_data.load_data" title="Link to this definition"></a></dt>
+<dd><p>Load data from JSON file to database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dbname</strong> (<em>str</em>) – Name of the database being accessed</p></li>
+<li><p><strong>user</strong> (<em>str</em>) – Username to access the database</p></li>
+<li><p><strong>password</strong> (<em>str</em>) – Password to access database with given username</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.data_processing.load_data.validate_entry">
+<span class="sig-prename descclassname"><span class="pre">src.data_processing.load_data.</span></span><span class="sig-name descname"><span class="pre">validate_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cursor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.data_processing.load_data.validate_entry" title="Link to this definition"></a></dt>
+<dd><p>Confirm entry is not already in database</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cursor</strong> (<em>refcursor</em>) – Connection to database</p></li>
+<li><p><strong>json_object</strong> (<em>json</em>) – Entry to be checked for in database</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Determination whether the entry is unique</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-src.data_processing.query_data">
+<span id="query-data-py"></span><h2>Query_data.py<a class="headerlink" href="#module-src.data_processing.query_data" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.data_processing.query_data.Query">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">src.data_processing.query_data.</span></span><span class="sig-name descname"><span class="pre">Query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.data_processing.query_data.Query" title="Link to this definition"></a></dt>
+<dd><p>Aggregate queries of applicant data.</p>
+<blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">param dbname<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Name of the database being accessed</p>
+</dd>
+<dt class="field-even">type dbname<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">param user<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Username to access the database</p>
+</dd>
+<dt class="field-even">type user<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">param password<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Password to access database with given username</p>
+</dd>
+<dt class="field-even">type password<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.data_processing.query_data.Query.run_query">
+<span class="sig-name descname"><span class="pre">run_query</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.data_processing.query_data.Query.run_query" title="Link to this definition"></a></dt>
+<dd><p>Queries data in database for analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Variables attached to self</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-src.flask_app">
+<span id="flask-app-py"></span><h2>Flask_app.py<a class="headerlink" href="#module-src.flask_app" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.flask_app.home">
+<span class="sig-prename descclassname"><span class="pre">src.flask_app.</span></span><span class="sig-name descname"><span class="pre">home</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.flask_app.home" title="Link to this definition"></a></dt>
+<dd><p>Homepage of Flask App showing questions and results from database queries</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Homepage template</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>html</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.flask_app.pull_data">
+<span class="sig-prename descclassname"><span class="pre">src.flask_app.</span></span><span class="sig-name descname"><span class="pre">pull_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.flask_app.pull_data" title="Link to this definition"></a></dt>
+<dd><p>Initiate the sequence of scraping new data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Homepage template</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>html</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.flask_app.update_analysis">
+<span class="sig-prename descclassname"><span class="pre">src.flask_app.</span></span><span class="sig-name descname"><span class="pre">update_analysis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.flask_app.update_analysis" title="Link to this definition"></a></dt>
+<dd><p>Update the analysis on the homepage to reflect recently pulled data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Homepage template</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>html</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="architecture.html" class="btn btn-neutral float-left" title="Architecture" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="testing.html" class="btn btn-neutral float-right" title="Testing Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, ehammer5.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
