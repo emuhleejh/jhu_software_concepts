@@ -11,6 +11,8 @@ Run and host Flask webpage.
 import sys
 from os.path import dirname
 from urllib import parse, robotparser
+import os
+from dotenv import load_dotenv
 
 # Necessary modules to operate programs
 import psycopg
@@ -22,6 +24,7 @@ from data_processing.scrape import Scrape
 from data_processing.clean import clean
 
 sys.path.append(dirname(__file__))
+load_dotenv()
 
 # Global instances for parse auth, website scraping
 AGENT = "student"
@@ -34,9 +37,9 @@ CLEANED_FILE = "llm_extend_applicant_data.txt"
 CLEANED_JSON = "llm_extend_applicant_data.json"
 bp = Blueprint("pages", __name__, template_folder = "templates")
 
-DBNAME = "applicants"
-USER = "postgres"
-PASSWORD = "python"
+DBNAME = os.getenv("DB_NAME")
+USER = os.getenv("DB_USER")
+PASSWORD = os.getenv("DB_PASSWORD")
 
 cache = {"pull-in-progress": False, "update-in-progress": False}
 

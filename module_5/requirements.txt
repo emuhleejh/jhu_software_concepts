@@ -6,4 +6,6 @@ pytest>=9.0
 pytest-cov
 setuptools
 pylint
-pydeps>=3
+dotenv
+pydeps
+graphviz
