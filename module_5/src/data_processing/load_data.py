@@ -59,58 +59,76 @@ def load_data(dbname, user, password):
 
     with connection.cursor() as c:
 
-         # Read file with entries for database
+          # Read file with entries for database
         with open(APPLICANT_DATA_FILE, "r", encoding="utf-8") as f:
             applicant_data = json.loads(f.read())
 
-         # Empty query string
-        query = ""
+            # Empty query string
+            query = ""
 
-         # Format each entry in file as json object, append to query string
-        for json_object in applicant_data:
+            # Format each entry in file as json object, append to query string
+            params = {}
+            i = 0
+            for json_object in applicant_data:
 
-            if validate_entry(c, json_object):
-                if json_object["gpa"] == "":
-                    json_object["gpa"] = "NULL"
+                if validate_entry(c, json_object):
+                    if json_object["gpa"] == "":
+                        json_object["gpa"] = None
 
-                if gpa_re.match(json_object["gpa"]) is None:
-                    json_object["gpa"] = "NULL"
+                    if gpa_re.match(json_object["gpa"]) is None:
+                        json_object["gpa"] = None
 
-                if json_object["gre"] == "":
-                    json_object["gre"] = "NULL"
+                    if json_object["gre"] == "":
+                        json_object["gre"] = None
 
-                if json_object["gre_v"] == "":
-                    json_object["gre_v"] = "NULL"
+                    if json_object["gre v"] == "":
+                        json_object["gre v"] = None
 
-                if json_object["gre_aw"] == "":
-                    json_object["gre_aw"] = "NULL"
+                    if json_object["gre aw"] == "":
+                        json_object["gre aw"] = None
 
-                query += f"INSERT INTO results \
-                    VALUES (DEFAULT,\
-                    '{json_object["program"].replace("'", "''")}', \
-                    '{json_object["comments"].replace("'", "''")}',\
-                    '{json_object["date_added"].replace("'", "''")}',\
-                    '{json_object["url"].replace("'", "''")}',\
-                    '{json_object["status"].replace("'", "''")}',\
-                    '{json_object["term"].replace("'", "''")}',\
-                    '{json_object["US/International"].replace("'", "''")}',\
-                    {json_object["gpa"].replace("'", "''")},\
-                    {json_object["gre"].replace("'", "''")},\
-                    {json_object["gre_v"].replace("'", "''")},\
-                    {json_object["gre_aw"].replace("'", "''")},\
-                    '{json_object["degree"].replace("'", "''")}',\
-                    '{json_object["llm-generated-program"].replace("'", "''")}',\
-                    '{json_object["llm-generated-university"].replace("'", "''")}');"
+                    query += f"INSERT INTO results \
+                         VALUES(%(prog{i})s, \
+                              %(comm{i})s, \
+                              %(date_add{i})s,\
+                              %(url{i})s,\
+                              %(status{i})s,\
+                              %(term{i})s,\
+                              %(us_int{i})s,\
+                              %(gpa{i})s,\
+                              %(gre{i})s,\
+                              %(gre_v{i})s,\
+                              %(gre_aw{i})s,\
+                              %(degree{i})s,\
+                              %(llm_prog{i})s,\
+                              %(llm_uni{i})s);"
+
+                    params[f"prog{i}"] = json_object["program"]
+                    params[f"comm{i}"] = json_object["comments"]
+                    params[f"date_add{i}"] = json_object["date_added"]
+                    params[f"url{i}"] = json_object["url"]
+                    params[f"status{i}"] = json_object["status"]
+                    params[f"term{i}"] = json_object["term"]
+                    params[f"us_int{i}"] = json_object["US/International"]
+                    params[f"gpa{i}"] = json_object["gpa"]
+                    params[f"gre{i}"] = json_object["gre"]
+                    params[f"gre_v{i}"] = json_object["gre v"]
+                    params[f"gre_aw{i}"] = json_object["gre aw"]
+                    params[f"degree{i}"] = json_object["degree"]
+                    params[f"llm_prog{i}"] = json_object["llm-generated-program"]
+                    params[f"llm_uni{i}"] = json_object["llm-generated-university"]
+
+                    i+=1
 
         # Execute query string and close connections
-        c.execute(query)
+        c.execute(query, params=params)
         connection.commit()
     c.close()
     connection.close()
 
 def clear_data():
     """
-    For testing; empties database.
+    For testing; empties table.
     """
     connection = psycopg.connect(dbname = "test_database", user = "postgres", password = "python")
     with connection.cursor() as c:

@@ -13,15 +13,13 @@ Module creates class Scrape that requires input of the base URL of the website t
 Class method scrape_data() requires unique ID of most recent entry collected, then collects information from the page until it reaches the one with the given unique ID. It sets up a state machine to control which 'if' statement is executed for each row entry in the page's table, the regex pattern to be used to identify the program term from the entry, and the page number of results to start on. While loop executes until the number of results in the results list equals the requested number of entries from the method call. In while loop, method uses urllib.request and bs4 libraries to open and process the page by finding the entries table and each entry row. For loop iterates through each entry ('applicant') on the page and uses state machine to and quantity of data points in a row to control which 'if' statement is executed for the row. For each parent row (main row for a single applicant entry), method creates a new Student object and adds to Scrape objects results list. The parent row and following rows for the same applicant are then parsed using bs4, regex, and string operations and assigned to the applicant's Student object properties. Once the while loop completes by fulfilling the requested number of entries, method call ends.
 Class method load_data() converts Student objects in Scrape object results list to JSON by calling Student method format() on each Student, adding each result to a student_list(), and returning a JSON formatted string.
 
-#### student.py
-Module creates class Student to store individual entries collected from thegradcafe.com/survey. Class method format() formats each Student property with its associated label in a JSON structure.
-
 #### clean.py
-Module creates class Clean that requires input of a filename. Class method llm_clean() runs the file received at initialization through the local LLM to enhance the program and university for each entry in the file and exports the results to a txt file.
+Module defines function clean() which requires input of a filename. It runs the file received through the local LLM to enhance the program and university for each entry in the file and exports the results to a txt file.
 
 #### load_data.py
-Module defines function create_table() that requires input of a database name, and the username and password to access the data. It uses this information to connect to the database and create a table in the database with predefined column ids.
-Module defines function load_data() that requires input of a database name, and the username and password to access the data. It connects to the given database and processes through a JSON file to add data from the file to the table created in create_table().
+Module defines function validate_entry() which requires input of a cursor object attached to a database and a json object. It uses the cursor to validate that the json object is not already in the database.
+Module defines function load_data() that requires input of a database name, and the username and password to access the data. It connects to the given database and processes through a JSON file to add data from the file to the 'results' table in the database.
+Module defines function clear_data() which empties a table in a test database.
 
 #### query_data.py
 Module creates class Query that requires input of the database to be worked with, and the username and password to access the data. It also initializes with empty variables to be filled in upon calculation. Class method run_query() connects to the given database and proceeds to run several queries with SQL on the database using the psycopg connection to postgresql. Once queries have been run, psycopg connection fully commits analysis and closes.

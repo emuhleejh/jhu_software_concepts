@@ -16,7 +16,7 @@ def clean(filename):
                 original data and extended generated data.
 
     :param filename: File name to be run through LLM
-
+    :type filename: str
     """
 
     subprocess.call(["py", "src/llm_hosting/app.py", "--file", \

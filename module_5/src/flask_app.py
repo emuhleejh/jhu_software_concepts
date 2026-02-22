@@ -75,7 +75,8 @@ def get_most_recent_entry():
     # Grab most recent entry collected from website
     with connection.cursor() as c:
         c.execute(r"""SELECT MAX(NULLIF(regexp_replace(url, '\D','','g'), '')::numeric) AS result
-                    FROM   results;
+                    FROM results
+                    LIMIT 1;
                 """)
         row = c.fetchone()
         most_recent_entry = int((row[0]))

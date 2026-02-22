@@ -94,7 +94,8 @@ class Query():
         """
         c.execute("""SELECT COUNT(p_id)
                 FROM results
-                WHERE term = 'Fall 2026';
+                WHERE term = 'Fall 2026'
+                LIMIT 1;
                 """)
         row = c.fetchone()
         self.ct_applicants_f26 = row[0]
@@ -107,7 +108,8 @@ class Query():
         c.execute("""SELECT us_or_international, COUNT(p_id)
                 FROM results
                 GROUP BY us_or_international
-                ORDER BY us_or_international desc;
+                ORDER BY us_or_international desc
+                LIMIT 2;
                 """)
         rows = c.fetchall()
         intl = 0
@@ -129,7 +131,8 @@ class Query():
         """
         c.execute("""SELECT COALESCE(avg(gpa), 0), COALESCE(avg(gre), 0), \
                   COALESCE(avg(gre_v), 0), COALESCE(avg(gre_aw), 0)
-                FROM results;
+                FROM results
+                LIMIT 4;
                 """)
         row = c.fetchone()
         self.avg_gpa, self.avg_gre, self.avg_gre_v, \
@@ -145,7 +148,8 @@ class Query():
         c.execute("""SELECT COALESCE(avg(gpa), 0)
                 FROM results
                 WHERE term = 'Fall 2026' 
-                    AND us_or_international = 'American';
+                    AND us_or_international = 'American'
+                LIMIT 1;
                 """)
         row = c.fetchone()
         self.avg_us_gpa_f26 = f"{row[0]:.2f}"
@@ -159,7 +163,8 @@ class Query():
                 FROM results
                 WHERE term = 'Fall 2025'
                 GROUP BY status
-                ORDER BY status asc;
+                ORDER BY status asc
+                LIMIT 4;
                 """)
         row = c.fetchall()
 
@@ -191,7 +196,8 @@ class Query():
         """
         c.execute("""SELECT COALESCE(avg(gpa), 0)
                 FROM results
-                WHERE term = 'Fall 2026' AND status = 'Accepted';
+                WHERE term = 'Fall 2026' AND status = 'Accepted'
+                LIMIT 1;
                 """)
         row = c.fetchone()
         if row is None:
@@ -210,7 +216,8 @@ class Query():
                     AND program LIKE ('Computer Science%') 
                     AND (program LIKE ('%Johns Hopkins%') 
                     OR program LIKE ('%JHU%') 
-                    OR program LIKE ('%Hopkins%'));
+                    OR program LIKE ('%Hopkins%'))
+                LIMIT 1;
                 """)
         row = c.fetchone()
         self.ct_jhu_ms_cs = row[0]
@@ -227,7 +234,8 @@ class Query():
                     AND (program LIKE ('%Georgetown%') 
                     OR program LIKE ('%MIT%') 
                     OR program LIKE ('%Stanford%') 
-                    OR program LIKE ('%Carnegie%'));
+                    OR program LIKE ('%Carnegie%'))
+                LIMIT 1;
                 """)
         row = c.fetchone()
         if row is None:
@@ -248,7 +256,8 @@ class Query():
                     AND (llm_generated_university LIKE ('%George town%') 
                     OR llm_generated_university LIKE ('%Massachusetts Institute of Technology%') 
                     OR llm_generated_university LIKE ('%Stanford%') 
-                    OR llm_generated_university LIKE ('%Carnegie%'));
+                    OR llm_generated_university LIKE ('%Carnegie%'))
+                LIMIT 1;
                 """)
         row = c.fetchone()
         if row is None:
@@ -265,7 +274,8 @@ class Query():
                 FROM results
                 WHERE status = 'Accepted'
                 GROUP BY llm_generated_program
-                ORDER BY total_count desc;
+                ORDER BY total_count desc
+                LIMIT 2;
                 """)
         row = c.fetchone()
         if row is None:
@@ -284,7 +294,8 @@ class Query():
                 FROM results
                 WHERE status = 'Rejected'
                 GROUP BY llm_generated_program
-                ORDER BY total_count desc;
+                ORDER BY total_count desc
+                LIMIT 2;
                 """)
         row = c.fetchone()
         if row is None:
@@ -303,7 +314,8 @@ class Query():
                 FROM results
                 WHERE status = 'Accepted'
                 GROUP BY llm_generated_university
-                ORDER BY total_count desc;
+                ORDER BY total_count desc
+                LIMIT 2;
                 """)
         row = c.fetchone()
         if row is None:
@@ -322,7 +334,8 @@ class Query():
                 FROM results
                 WHERE status = 'Rejected'
                 GROUP BY llm_generated_university
-                ORDER BY total_count desc;
+                ORDER BY total_count desc
+                LIMIT 2;
                 """)
         row = c.fetchone()
 
